@@ -11,6 +11,7 @@ const headerProps = {
 const baseUrl = 'http://localhost:3001/escolas';
 const initialState ={
     school: {name:'', endereco:'', diretor:'', fone:''},
+    diretores: [],
     list:[]
 }
 
@@ -19,9 +20,11 @@ export default  class School extends Component {
     state = {...initialState}
 
     componentWillMount() {
-        axios(baseUrl).then(res => {
-            this.setState({ list: res.data});
-        })
+        axios(baseUrl).then(escolas => {
+            axios("http://localhost:3001/diretores").then(diretores => {
+                this.setState({diretores: diretores.data, list: escolas.data});
+            });
+        });
     }
 
     clear() {
@@ -29,12 +32,14 @@ export default  class School extends Component {
     }
 
     save() {
-        const school = this.state.school    
-        axios.post(baseUrl, school)
-            .then(res => {
-                const list = this.getUpdatedList(res.data)
-                this.setState({school:initialState.school, list})
-            });
+        const school = this.state.school 
+        if(school.name!==''&& school.fone!==''&& school.endereco!==''&& school.diretor!==''){  
+            axios.post(baseUrl, school)
+                .then(res => {
+                    const list = this.getUpdatedList(res.data)
+                    this.setState({school:initialState.school, list})
+                });
+        }
     }
 
     getUpdatedList(school) {
@@ -51,66 +56,75 @@ export default  class School extends Component {
 
     renderForm() {
         return (
-            <div className="form">
-                <div className="row">
-                    <div className="col-12 col-md-6">
-                        <div className="form-group">
-                            <label>Nome:</label>
-                            <input type='text' className='form-control'
-                                name='name'
-                                value={this.state.school.name}
-                                onChange={e => this.updateField(e)}
-                                placeholder='Digite o nome da escola' />
+            <form >
+                <div className="form">
+                    <div className="row">
+                        <div className="col-12 col-md-6">
+                            <div className="form-group">
+                                <label for="name">Nome:</label>
+                                <input type='text' className='form-control'
+                                    name='name'
+                                    value={this.state.school.name}
+                                    onChange={e => this.updateField(e)}
+                                    placeholder='Digite o nome da escola'
+                                    required />
+                            </div>
+                        </div>
+
+                        <div className="col-12 col-md-6">
+                            <div className="form-group">
+                                <label for='endereco'>Endereço</label>
+                                <input type="text" className='form-control'
+                                    name='endereco'
+                                    value={this.state.school.endereco}
+                                    onChange={e => this.updateField(e)}
+                                    placeholder="Digite o endereço da escola" 
+                                    required />
+                            </div>
+                        </div>
+                        <div className="col-12 col-md-6">
+                            <div className="form-group">
+                                <label>Telefone:</label>
+                                <input type='text' className='form-control'
+                                    name='fone'
+                                    value={this.state.school.fone}
+                                    onChange={e => this.updateField(e)}
+                                    placeholder='Digite o telefone da escola' 
+                                    pattern='[\+]\d{2}[\(]\d{2}[\)]\d{4}[\-]\d{4}'
+                                    required />
+                            </div>
+                        </div>
+                        <div className="col-12 col-md-6">
+                            <div className="form-group">
+                                <label>Diretor:</label>
+                                <select type='select' className='form-control'
+                                    name='diretor'
+                                    value={this.state.school.diretor}
+                                    onChange={e => this.updateField(e)}
+                                    required >
+                                        <option value='' selected disabled>Selecione o Diretor</option>
+                                        {this.renderOptions()}
+                                </select>
+                            </div>
                         </div>
                     </div>
 
-                    <div className="col-12 col-md-6">
-                        <div className="form-group">
-                            <label>Endereço</label>
-                            <input type="text" className='form-control'
-                                name='endereco'
-                                value={this.state.school.endereco}
-                                onChange={e => this.updateField(e)}
-                                placeholder="Digite o endereço da escola" />
-                        </div>
-                    </div>
-                    <div className="col-12 col-md-6">
-                        <div className="form-group">
-                            <label>Telefone:</label>
-                            <input type='text' className='form-control'
-                                name='fone'
-                                value={this.state.school.fone}
-                                onChange={e => this.updateField(e)}
-                                placeholder='Digite o telefone da escola' />
-                        </div>
-                    </div>
-                    <div className="col-12 col-md-6">
-                        <div className="form-group">
-                            <label>Diretor:</label>
-                            <select type='select' className='form-control'
-                                name='diretor'
-                                value={this.state.school.diretor}
-                                onChange={e => this.updateField(e)}
-                                placeholder='Selecione o Diretor' />
+                    <hr />
+                    <div className="row">
+                        <div className="col-12 d-flex justify-content-end">
+                            <button className="btn btn-primary"
+                                onClick={e => this.save(e)}>
+                                Salvar
+                            </button>
+
+                            <button className="btn btn-secondary ml-2"
+                                onClick={e => this.clear(e)}>
+                                Cancelar
+                            </button>
                         </div>
                     </div>
                 </div>
-
-                <hr />
-                <div className="row">
-                    <div className="col-12 d-flex justify-content-end">
-                        <button className="btn btn-primary"
-                            onClick={e => this.save(e)}>
-                            Salvar
-                        </button>
-
-                        <button className="btn btn-secondary ml-2"
-                            onClick={e => this.clear(e)}>
-                            Cancelar
-                        </button>
-                    </div>
-                </div>
-            </div>
+            </form>
         )
     }
 
@@ -141,6 +155,14 @@ export default  class School extends Component {
                     <td>{school.fone}</td>
                     <td>{school.diretor}</td>
                 </tr>
+            )
+        })
+    }
+
+    renderOptions() {
+        return this.state.diretores.map(diretores => {
+            return (
+                <option>{diretores.name}</option>
             )
         })
     }
