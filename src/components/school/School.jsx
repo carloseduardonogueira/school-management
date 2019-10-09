@@ -114,8 +114,8 @@ export default class School extends Component {
                   value={this.state.school.fone}
                   onChange={e => this.updateField(e)}
                   placeholder='Digite o telefone da escola'
-                  pattern='[\+]\d{2}[\(]\d{2}[\)]\d{4}[\-]\d{4}'
-                  required />
+                  required
+                />
               </div>
             </div>
             <div className="col-12 col-md-6">
