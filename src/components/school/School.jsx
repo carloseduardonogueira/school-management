@@ -14,6 +14,7 @@ const initialState = {
   diretores: [],
   list: [],
   isInvalid: true,
+  saved: false,
 };
 
 export default class School extends Component {
@@ -28,7 +29,7 @@ export default class School extends Component {
   }
 
   clear() {
-    this.setState({ school: initialState.school });
+    this.setState({ state: initialState });
   }
 
   save() {
@@ -36,8 +37,9 @@ export default class School extends Component {
     if (school.name !== '' && school.fone !== '' && school.endereco !== '' && school.diretor !== '') {
       axios.post(baseUrl, school)
         .then(res => {
+            const saved = true;
           const list = this.getUpdatedList(res.data)
-          this.setState({ school: initialState.school, list })
+          this.setState({ school: initialState.school, list, saved})
         });
     };
   }
@@ -49,6 +51,7 @@ export default class School extends Component {
   }
 
   updateField(event) {
+    this.setState({saved:false})
     const school = { ...this.state.school };
     const regrasTelefone = /^\+?\d{2}?\s*\(\d{2}\)?\s*\d{4,5}\-?\d{4}$/g;
 
@@ -157,6 +160,15 @@ export default class School extends Component {
                   <div class="alert alert-danger" role="alert">
                     Você deve preencher os dados!
                   </div>
+                )
+              }
+              </ div>
+              <div className="col-12 d-flex justify-content-end">
+              {
+                this.state.saved && (
+                    <div class="alert alert-success" role="alert">
+                        Escola inserida com sucesso!
+                    </div>  
                 )
               }
             </div>
