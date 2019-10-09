@@ -50,7 +50,7 @@ export default class School extends Component {
 
   updateField(event) {
     const school = { ...this.state.school };
-    const regrasTelefone = /\+\d{2}\s\(\d{2}\)\s\d{4,5}-?\d{4}/g;
+    const regrasTelefone = /^\+?\d{2}?\s*\(\d{2}\)?\s*\d{4,5}\-?\d{4}$/g;
 
     let isInvalid = false;
 
@@ -65,7 +65,7 @@ export default class School extends Component {
       if (key === 'fone') {
         if (!regrasTelefone.test(school[key])) {
           isInvalid = true;
-        }
+        };
       };
     };
 
@@ -102,6 +102,13 @@ export default class School extends Component {
             <div className="col-12 col-md-6">
               <div className="form-group">
                 <label>Telefone:</label>
+                {
+                  this.state.isInvalid && (
+                    <div class="alert alert-danger" role="alert">
+                      Você deve preencher os dados de telefone no padrão: '+55 (55) 23321-5454'
+                    </div>
+                  )
+                }
                 <input type='text' className='form-control'
                   name='fone'
                   value={this.state.school.fone}
