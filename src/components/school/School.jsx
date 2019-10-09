@@ -54,6 +54,7 @@ export default class School extends Component {
 
     school[event.target.name] = event.target.value;
 
+    // Adicionar as validações aqui!
     for (let key in school) {
       if (school[key] === '') {
         isInvalid = true;
