@@ -93,7 +93,7 @@ export default class School extends Component {
             </div>
             <div className="col-12 col-md-6">
               <div className="form-group">
-                <label for='endereco'>Endereço</label>
+                <label for='endereco'>Endereço:</label>
                 <input type="text" className='form-control'
                   name='endereco'
                   value={this.state.school.endereco}
