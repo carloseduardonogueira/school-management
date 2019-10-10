@@ -15,7 +15,9 @@ const initialState = {
   isInvalidPhone: true,
   isInvalidCPF: true,
   isInvalidEmail: true,
-  saved: false
+  saved: false,
+  isEmpty: true,
+  isInvalid: true
 }
 
 export default class Professor extends Component {
@@ -29,7 +31,7 @@ export default class Professor extends Component {
   }
 
   clear(){
-    this.setState({ state: initialState });
+    this.setState({ professor: initialState.professor });
   }
 
   save(){
@@ -37,10 +39,9 @@ export default class Professor extends Component {
     axios.post(baseUrl, professor)
       .then(res => {
         const list = this.getUpdatedList(res.data)
-        this.setState({ professor: initialState.professor, list, saved: true });
-      }).then(() => { 
-        this.setState({ saved: false });
-      });
+        this.setState({saved: true});
+        setTimeout(() => {this.setState({ professor: initialState.professor, list, saved: false, isInvalid: true })},1000);
+      })
   }
 
   getUpdatedList(professor){
@@ -61,13 +62,14 @@ export default class Professor extends Component {
     let isInvalidPhone = false;
     let isInvalidCPF = false;
     let isInvalidEmail = false;
+    let isEmpty = false;
+    let isInvalid = true;
 
     // Adicionar as validações aqui!
+    
     for (let key in professor) {
       if (professor[key] === '') {
-        isInvalidPhone = true;
-        isInvalidCPF = true;
-        isInvalidEmail = true;
+        isEmpty = true;
       };
 
       if (key === 'phone') {
@@ -86,8 +88,10 @@ export default class Professor extends Component {
         };
       };
     };
-
-    this.setState({ professor, isInvalidPhone, isInvalidCPF, isInvalidEmail });
+    if (!isInvalidCPF && !isInvalidEmail && !isInvalidPhone && !isEmpty){
+        isInvalid = false;
+    }
+    this.setState({ professor, isInvalidPhone, isInvalidCPF, isInvalidEmail, isEmpty, isInvalid });
   }
 
   renderForm() {
@@ -190,7 +194,7 @@ export default class Professor extends Component {
               <button
                 className="btn btn-primary"
                 onClick={e => this.save(e)}
-                disabled={this.state.isInvalidPhone && this.state.isInvalidCPF && this.state.isInvalidEmail}
+                disabled={this.state.isInvalid }
               >
                 Salvar
               </button>
@@ -204,7 +208,7 @@ export default class Professor extends Component {
             </div>
             <div className="col-12 d-flex justify-content-end">
               {
-                this.state.isInvalidPhone && this.state.isInvalidEmail && this.state.isInvalidCPF && (
+                this.state.isInvalid && (
                   <div class="alert alert-danger" role="alert">
                     Você deve preencher os dados!
                   </div>

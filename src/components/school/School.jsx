@@ -14,6 +14,7 @@ const initialState = {
   diretores: [],
   list: [],
   isInvalid: true,
+  isInvalidPhone: true,
   saved: false,
 };
 
@@ -34,14 +35,12 @@ export default class School extends Component {
 
   save() {
     const school = this.state.school
-    if (school.name !== '' && school.fone !== '' && school.endereco !== '' && school.diretor !== '') {
       axios.post(baseUrl, school)
         .then(res => {
-          const saved = true;
           const list = this.getUpdatedList(res.data)
-          this.setState({ school: initialState.school, list, saved})
+          this.setState({saved: true});
+          setTimeout(() => {this.setState({ school: initialState.school, list, saved: false, isInvalid: true, isInvalidPhone: true })},1000);
         });
-    };
   }
 
   getUpdatedList(school) {
@@ -51,11 +50,11 @@ export default class School extends Component {
   }
 
   updateField(event) {
-    this.setState({saved:false})
     const school = { ...this.state.school };
     const regrasTelefone = /^\+?\d{2}?\s*\(\d{2}\)?\s*\d{4,5}\-?\d{4}$/g;
 
     let isInvalid = false;
+    let isInvalidPhone = false;
 
     school[event.target.name] = event.target.value;
 
@@ -67,12 +66,16 @@ export default class School extends Component {
 
       if (key === 'fone') {
         if (!regrasTelefone.test(school[key])) {
-          isInvalid = true;
+          isInvalidPhone = true;
         };
       };
     };
 
-    this.setState({ school, isInvalid });
+    if(isInvalidPhone){
+      isInvalid = true;
+    }
+
+    this.setState({ school, isInvalid, isInvalidPhone });
   }
 
   renderForm() {
@@ -106,7 +109,7 @@ export default class School extends Component {
               <div className="form-group">
                 <label>Telefone:</label>
                 {
-                  this.state.isInvalid && (
+                  this.state.isInvalidPhone && (
                     <div class="alert alert-danger" role="alert">
                       Você deve preencher os dados de telefone no padrão: '+55 (55) 23321-5454'
                     </div>
