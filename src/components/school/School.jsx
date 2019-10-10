@@ -37,7 +37,7 @@ export default class School extends Component {
     if (school.name !== '' && school.fone !== '' && school.endereco !== '' && school.diretor !== '') {
       axios.post(baseUrl, school)
         .then(res => {
-            const saved = true;
+          const saved = true;
           const list = this.getUpdatedList(res.data)
           this.setState({ school: initialState.school, list, saved})
         });

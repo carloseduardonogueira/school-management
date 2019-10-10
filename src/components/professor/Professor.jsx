@@ -12,7 +12,10 @@ const baseUrl = 'http://localhost:3001/professores'
 const initialState = {
   professor: { name: '', surname: '', email: '', cpf: '', address: '', phone: ''},
   list: [],
-  isInvalid: true
+  isInvalidPhone: true,
+  isInvalidCPF: true,
+  isInvalidEmail: true,
+  saved: false
 }
 
 export default class Professor extends Component {
@@ -34,7 +37,9 @@ export default class Professor extends Component {
     axios.post(baseUrl, professor)
       .then(res => {
         const list = this.getUpdatedList(res.data)
-        this.setState({ professor: initialState.professor, list })
+        this.setState({ professor: initialState.professor, list, saved: true });
+      }).then(() => { 
+        this.setState({ saved: false });
       });
   }
 
@@ -45,40 +50,44 @@ export default class Professor extends Component {
   }
 
   updateField(event){
-    const professor = {...initialState};
+    const professor = { ...this.state.professor };
     const regrasTelefone = /^\+?\d{2}?\s*\(\d{2}\)?\s*\d{4,5}\-?\d{4}$/g;
     const regrasCPF = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/g;
-    const regrasEmail = /^[a-zA-Z0-9.]+@[a-zA-Z0-9\-]+\.[a-z]+\.([a-z]+)?$/g;
+    const regrasEmail = /^[a-zA-Z0-9.]+@[a-zA-Z0-9\-]+\.[a-z]+(\.[a-z]+)?$/g;
 
     professor[event.target.name] = event.target.value;
-    this.setState({ professor })
+    this.setState({ professor });
 
-    let isInvalid = false;
+    let isInvalidPhone = false;
+    let isInvalidCPF = false;
+    let isInvalidEmail = false;
 
     // Adicionar as validações aqui!
     for (let key in professor) {
       if (professor[key] === '') {
-        isInvalid = true;
+        isInvalidPhone = true;
+        isInvalidCPF = true;
+        isInvalidEmail = true;
       };
 
       if (key === 'phone') {
         if (!regrasTelefone.test(professor[key])) {
-          isInvalid = true;
+          isInvalidPhone = true;
         };
       };
       if (key === 'cpf') {
         if (!regrasCPF.test(professor[key])) {
-          isInvalid = true;
+          isInvalidCPF = true;
         };
       };
       if (key === 'email') {
         if (!regrasEmail.test(professor[key])) {
-          isInvalid = true;
+          isInvalidEmail = true;
         };
       };
     };
 
-    this.setState({ professor, isInvalid });
+    this.setState({ professor, isInvalidPhone, isInvalidCPF, isInvalidEmail });
   }
 
   renderForm() {
@@ -112,7 +121,7 @@ export default class Professor extends Component {
               <div className="form-group">
                 <label>CPF:</label>
                 {
-                  this.state.isInvalid && (
+                  this.state.isInvalidCPF && (
                     <div class="alert alert-danger" role="alert">
                       Você deve preencher os dados de CPF no padrão: '123.456.789-00'
                     </div>
@@ -130,7 +139,7 @@ export default class Professor extends Component {
               <div className="form-group">
                 <label>E-mail:</label>
                 {
-                  this.state.isInvalid && (
+                  this.state.isInvalidEmail && (
                     <div class="alert alert-danger" role="alert">
                       Você deve preencher os dados de E-mail no padrão: 'Professor09@puccampinas.com'
                     </div>
@@ -159,7 +168,7 @@ export default class Professor extends Component {
               <div className="form-group">
                 <label>Telefone:</label>
                 {
-                  this.state.isInvalid && (
+                  this.state.isInvalidPhone && (
                     <div class="alert alert-danger" role="alert">
                       Você deve preencher os dados de telefone no padrão: '+55 (55) 23321-5454'
                     </div>
@@ -181,7 +190,7 @@ export default class Professor extends Component {
               <button
                 className="btn btn-primary"
                 onClick={e => this.save(e)}
-                disabled={this.state.isInvalid}
+                disabled={this.state.isInvalidPhone && this.state.isInvalidCPF && this.state.isInvalidEmail}
               >
                 Salvar
               </button>
@@ -195,7 +204,7 @@ export default class Professor extends Component {
             </div>
             <div className="col-12 d-flex justify-content-end">
               {
-                this.state.isInvalid && (
+                this.state.isInvalidPhone && this.state.isInvalidEmail && this.state.isInvalidCPF && (
                   <div class="alert alert-danger" role="alert">
                     Você deve preencher os dados!
                   </div>
