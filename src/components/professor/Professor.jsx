@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Main from '../template/Main'
 import axios from 'axios'
+import CPF from 'cpf-check';
 
 const headerProps = {
   icon: 'users',
@@ -78,7 +79,7 @@ export default class Professor extends Component {
         };
       };
       if (key === 'cpf') {
-        if (!regrasCPF.test(professor[key])) {
+        if (!regrasCPF.test(professor[key]) || !CPF.validate(professor[key])) {
           isInvalidCPF = true;
         };
       };
