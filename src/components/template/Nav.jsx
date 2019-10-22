@@ -21,5 +21,8 @@ export default props =>
       <Link to="/professores">
         <i class="fa fa-users"></i>Professores
             </Link>
+      <Link to="/administradores">
+        <i class="fa fa-users"></i>Administradores
+            </Link>
     </nav>
   </aside>

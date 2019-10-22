@@ -1,21 +1,24 @@
 import React, { Component } from 'react';
 import Main from '../template/Main';
 import axios from 'axios';
+import CPF from 'cpf-check';
 
 const headerProps = {
-    icon: 'university',
-    title: 'Admnistrador',
+    icon: 'users',
+    title: 'Administrador',
     subtitle: 'Cadastrar novo administrador'
   };
 
   const baseUrl = 'http://localhost:3001/administradores'
   const initialState ={
-      administrador:{name:'',email:''},
+      administrador:{name:'', surname:'', email:'', phone:'', cpf:''},
       list: [],
       saved: false,
       isEmpty: true,
-      isInvalidEmail:true,
-      isInvalid : true
+      isInvalidEmail: true,
+      isInvalidPhone: true,
+      isInvalidCPF: true,
+      isInvalid: true
   }
 
   export default class Administrador extends Component {
@@ -47,110 +50,177 @@ const headerProps = {
 
       updateField(event){
         const administrador = { ...this.state.administrador };
+        const regrasTelefone = /^\+?\d{2}?\s*\(\d{2}\)?\s*\d{4,5}\-?\d{4}$/g;
+        const regrasCPF = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/g;
         const regrasEmail = /^[a-zA-Z0-9.]+@[a-zA-Z0-9\-]+\.[a-z]+(\.[a-z]+)?$/g;
+    
         administrador[event.target.name] = event.target.value;
         this.setState({ administrador });
+    
+        let isInvalidPhone = false;
+        let isInvalidCPF = false;
         let isInvalidEmail = false;
-        let isEmpty = true;
+        let isEmpty = false;
         let isInvalid = true;
-
+    
+        // Adicionar as validações aqui!
+        
         for (let key in administrador) {
-          if (Administrador[key] === '') {
+          if (administrador[key] === '') {
             isEmpty = true;
+          };
+    
+          if (key === 'phone') {
+            if (!regrasTelefone.test(administrador[key])) {
+              isInvalidPhone = true;
+            };
+          };
+          if (key === 'cpf') {
+            if (!regrasCPF.test(administrador[key]) || !CPF.validate(administrador[key])) {
+              isInvalidCPF = true;
+            };
           };
           if (key === 'email') {
             if (!regrasEmail.test(administrador[key])) {
               isInvalidEmail = true;
             };
-          }
+          };
+        };
+        if (!isInvalidCPF && !isInvalidEmail && !isInvalidPhone && !isEmpty){
+            isInvalid = false;
+        }
+        this.setState({ Administrador, isInvalidPhone, isInvalidCPF, isInvalidEmail, isEmpty, isInvalid });
       }
-      if (!isInvalidEmail){
-        isInvalid = false;
-    } 
-    this.setState({ administrador, isInvalidEmail, isEmpty, isInvalid }); 
-
-    }
 
       renderForm() {
-        return(
+        return (
           <form>
             <div className="form">
-
-             <div className="row">
-
-               <div className ="col-12 col-md-6">
-               <div className="form-group">
-                <label for="name">Nome:</label>
-                <input type='text' className='form-control'
-                  name='name'
-                  value={this.state.administrador.name}
-                  onChange={e => this.updateField(e)}
-                  placeholder='Digite o nome do Administrador'
-                  required />
-              </div>
-               </div>
+              <div className="row">
                 <div className="col-12 col-md-6">
-              <div className="form-group">
-                <label>E-mail:</label>
-                {
-                  this.state.isInvalidEmail && (
-                    <div class="alert alert-danger" role="alert">
-                      Você deve preencher os dados de E-mail no padrão: 'administrador09@puccampinas.com'
-                    </div>
-                  )
-                }
-                <input type='text' className='form-control'
-                  name='email'
-                  value={this.state.administrador.email}
-                  onChange={e => this.updateField(e)}
-                  placeholder='Digite o e-mail do administrador'
-                  required />
-              </div>
-            </div>
-
-               </div> 
-
-               <hr />
-          <div className="row">
-            <div className="col-12 d-flex justify-content-end">
-              <button
-                className="btn btn-primary"
-                onClick={e => this.save(e)}
-                disabled={this.state.isInvalid }
-              >
-                Salvar
-              </button>
-
-              <button
-                className="btn btn-secondary ml-2"
-                onClick={e => this.clear(e)}
-              >
-                Cancelar
-              </button>
-            </div>
-            <div className="col-12 d-flex justify-content-end">
-              {
-                this.state.isInvalid && (
-                  <div class="alert alert-danger" role="alert">
-                    Você deve preencher os dados!
+                  <div className="form-group">
+                    <label for="name">Nome:</label>
+                    <input type='text' className='form-control'
+                      name='name'
+                      value={this.state.administrador.name}
+                      onChange={e => this.updateField(e)}
+                      placeholder='Digite o nome do administrador'
+                      required />
                   </div>
-                )
-              }
-              </ div>
-              <div className="col-12 d-flex justify-content-end">
-              {
-                this.state.saved && (
-                    <div class="alert alert-success" role="alert">
-                        Professor inserido com sucesso!
-                    </div>  
-                )
-              }
-            </div>
-          </div>
-
+                </div>
+                <div className="col-12 col-md-6">
+                  <div className="form-group">
+                    <label for="surname">Sobrenome:</label>
+                      <input type='text' className='form-control'
+                        name='surname'
+                        value={this.state.administrador.surname}
+                        onChange={e => this.updateField(e)}
+                        placeholder='Digite o sobrenome do administrador'
+                        required />
+                  </div>
+                </div>
+                <div className="col-12 col-md-6">
+                  <div className="form-group">
+                    <label>CPF:</label>
+                    {
+                      this.state.isInvalidCPF && (
+                        <div class="alert alert-danger" role="alert">
+                          Você deve preencher os dados de CPF no padrão: '123.456.789-00'
+                        </div>
+                      )
+                    }
+                    <input type="text" className='form-control'
+                      name='cpf'
+                      value={this.state.administrador.cpf}
+                      onChange={e => this.updateField(e)}
+                      placeholder="Digite o CPF do administrador"
+                      required />
+                  </div>
+                </div>
+                <div className="col-12 col-md-6">
+                  <div className="form-group">
+                    <label>E-mail:</label>
+                    {
+                      this.state.isInvalidEmail && (
+                        <div class="alert alert-danger" role="alert">
+                          Você deve preencher os dados de E-mail no padrão: 'administrador09@puccampinas.com'
+                        </div>
+                      )
+                    }
+                    <input type='text' className='form-control'
+                      name='email'
+                      value={this.state.administrador.email}
+                      onChange={e => this.updateField(e)}
+                      placeholder='Digite o e-mail do administrador'
+                      required />
+                  </div>
+                </div>
+                <div className="col-12 col-md-6">
+                  <div className="form-group">
+                    <label>Telefone:</label>
+                    {
+                      this.state.isInvalidPhone && (
+                        <div class="alert alert-danger" role="alert">
+                          Você deve preencher os dados de telefone no padrão: '+55 (55) 23321-5454'
+                        </div>
+                      )
+                    }
+                    <input type='text' className='form-control'
+                      name='phone'
+                      value={this.state.administrador.phone}
+                      onChange={e => this.updateField(e)}
+                      placeholder='Digite o telefone do administrador'
+                      required />
+                  </div>
+                </div>
+              </div>
+    
+              <hr />
+              <div className="row">
+                <div className="col-12 d-flex justify-content-end">
+                  <button
+                    className="btn btn-primary"
+                    onClick={e => this.save(e)}
+                    disabled={this.state.isInvalid }
+                  >
+                    Salvar
+                  </button>
+    
+                  <button
+                    className="btn btn-secondary ml-2"
+                    onClick={e => this.clear(e)}
+                  >
+                    Cancelar
+                  </button>
+                </div>
+                <div className="col-12 d-flex justify-content-end">
+                  {
+                    this.state.isInvalid && (
+                      <div class="alert alert-danger" role="alert">
+                        Você deve preencher os dados!
+                      </div>
+                    )
+                  }
+                  </ div>
+                  <div className="col-12 d-flex justify-content-end">
+                  {
+                    this.state.saved && (
+                        <div class="alert alert-success" role="alert">
+                            administrador inserido com sucesso!
+                        </div>  
+                    )
+                  }
+                </div>
+              </div>
             </div>
           </form>
         )
+      }
+
+      getUpdatedList(administrador){
+        const list = this.state.list.filter(p => p.id !== administrador.id);
+        list.unshift(administrador);
+        return list;
       }
 
       renderTable() {
@@ -159,7 +229,10 @@ const headerProps = {
             <thead>
               <tr>
                 <th>Nome</th>
+                <th>Sobrenome</th>
                 <th>E-mail</th>
+                <th>Telefone</th>
+                <th>cpf</th>
               </tr>
             </thead>
             <tbody>
