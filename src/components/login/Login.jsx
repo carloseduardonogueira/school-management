@@ -10,6 +10,8 @@ const initialState = {
   login: '',
   password: '',
   isLogged: false,
+  loginIsInvalid: false,
+  passwordIsInvalid: false,
 }
 
 export default class Login extends React.Component {
@@ -55,6 +57,15 @@ export default class Login extends React.Component {
             onChange={(e) => this.onChangeLogin(e)}
             required
           />
+          <div className="col-12 d-flex justify-content-end">
+                  {
+                    this.state.loginIsInvalid && (
+                      <div class="alert alert-danger" role="alert">
+                        Usuário inválido!
+                      </div>
+                    )
+                  }
+                  </ div>
           <input
             type='password'
             name='password'
@@ -63,6 +74,15 @@ export default class Login extends React.Component {
             onChange={(e) => this.onChangePassword(e)}
             required
           />
+          <div className="col-12 d-flex justify-content-end">
+                  {
+                    this.state.passwordIsInvalid && (
+                      <div class="alert alert-danger" role="alert">
+                        Senha inválida!
+                      </div>
+                    )
+                  }
+                  </ div>
           <button
             onClick={() => this.onLogin()}
           >
