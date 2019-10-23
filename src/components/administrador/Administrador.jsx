@@ -11,12 +11,13 @@ const headerProps = {
 
   const baseUrl = 'http://localhost:3001/administradores'
   const initialState ={
-      administrador:{name:'', surname:'', email:'', phone:'', cpf:''},
+      administrador:{name:'', surname:'', email:'', phone:'', phone2:'', cpf:''},
       list: [],
       saved: false,
       isEmpty: true,
       isInvalidEmail: true,
       isInvalidPhone: true,
+      isInvalidPhone2: true,
       isInvalidCPF: true,
       isInvalid: true
   }
@@ -48,6 +49,7 @@ const headerProps = {
       updateField(event){
         const administrador = { ...this.state.administrador };
         const regrasTelefone = /^\+?\d{2}?\s*\(\d{2}\)?\s*\d{4,5}\-?\d{4}$/g;
+        const regrasTelefone2 = /^\+?\d{2}?\s*\(\d{2}\)?\s*\d{4,5}\-?\d{4}$/g;
         const regrasCPF = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/g;
         const regrasEmail = /^[a-zA-Z0-9.]+@[a-zA-Z0-9\-]+\.[a-z]+(\.[a-z]+)?$/g;
     
@@ -55,6 +57,7 @@ const headerProps = {
         this.setState({ administrador });
     
         let isInvalidPhone = false;
+        let isInvalidPhone2 = false;
         let isInvalidCPF = false;
         let isInvalidEmail = false;
         let isEmpty = false;
@@ -72,6 +75,11 @@ const headerProps = {
               isInvalidPhone = true;
             };
           };
+          if (key === 'phone2') {
+            if (!regrasTelefone2.test(administrador[key])) {
+              isInvalidPhone2 = true;
+            };
+          };
           if (key === 'cpf') {
             if (!regrasCPF.test(administrador[key]) || !CPF.validate(administrador[key])) {
               isInvalidCPF = true;
@@ -83,10 +91,10 @@ const headerProps = {
             };
           };
         };
-        if (!isInvalidCPF && !isInvalidEmail && !isInvalidPhone && !isEmpty){
+        if (!isInvalidCPF && !isInvalidEmail && !isInvalidPhone && !isInvalidPhone2 && !isEmpty){
             isInvalid = false;
         }
-        this.setState({ Administrador, isInvalidPhone, isInvalidCPF, isInvalidEmail, isEmpty, isInvalid });
+        this.setState({ Administrador, isInvalidPhone, isInvalidPhone2, isInvalidCPF, isInvalidEmail, isEmpty, isInvalid });
       }
 
       renderForm() {
@@ -154,7 +162,7 @@ const headerProps = {
                 </div>
                 <div className="col-12 col-md-6">
                   <div className="form-group">
-                    <label>Telefone:</label>
+                    <label>Telefone (pessoal):</label>
                     {
                       this.state.isInvalidPhone && (
                         <div class="alert alert-danger" role="alert">
@@ -165,6 +173,24 @@ const headerProps = {
                     <input type='text' className='form-control'
                       name='phone'
                       value={this.state.administrador.phone}
+                      onChange={e => this.updateField(e)}
+                      placeholder='Digite o telefone do administrador'
+                      required />
+                  </div>
+                </div>
+                <div className="col-12 col-md-6">
+                  <div className="form-group">
+                    <label>Telefone (empresa):</label>
+                    {
+                      this.state.isInvalidPhone2 && (
+                        <div class="alert alert-danger" role="alert">
+                          Você deve preencher os dados de telefone no padrão: '+55 (55) 23321-5454'
+                        </div>
+                      )
+                    }
+                    <input type='text' className='form-control'
+                      name='phone2'
+                      value={this.state.administrador.phone2}
                       onChange={e => this.updateField(e)}
                       placeholder='Digite o telefone do administrador'
                       required />
@@ -228,7 +254,8 @@ const headerProps = {
                 <th>Nome</th>
                 <th>Sobrenome</th>
                 <th>E-mail</th>
-                <th>Telefone</th>
+                <th>Telefone (pessoal)</th>
+                <th>Telefone (empresa)</th>
                 <th>CPF</th>
               </tr>
             </thead>
@@ -247,6 +274,7 @@ const headerProps = {
               <td>{administrador.surname}</td>
               <td>{administrador.email}</td>
               <td>{administrador.phone}</td>
+              <td>{administrador.phone2}</td>
               <td>{administrador.cpf}</td>    
             </tr>
           )

@@ -6,7 +6,7 @@ import { compileFunction } from 'vm';
 
 const headerProps = {
 	icon: 'users',
-	title: 'Aluno',
+	title: 'Alunos',
 	subtitle: 'Cadastrar novo aluno'
 };
 
@@ -19,20 +19,15 @@ const initialState = {
 		cpf: '',
 		address: '',
 		phone: '',
-		ra: '',
-		birthdate: '',
-		login: '',
-		senha: ''
+		birthdate: ''
 	},
 	list: [],
-	isInvalidPhone: false,
-	isInvalidCPF: false,
-	isInvalidEmail: false,
-	invalidDate: false,
-	invalidSenha: false,
+	isInvalidPhone: true,
+	isInvalidCPF: true,
+	isInvalidEmail: true,
 	saved: false,
-	isEmpty: false,
-	isInvalid: false
+	isEmpty: true,
+	isInvalid: true
 }
 
 export default class Aluno extends Component {
@@ -72,7 +67,6 @@ export default class Aluno extends Component {
 		const regrasTelefone = /^\+?\d{2}?\s*\(\d{2}\)?\s*\d{4,5}\-?\d{4}$/g;
 		const regrasCPF = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/g;
 		const regrasEmail = /^[a-zA-Z0-9.]+@[a-zA-Z0-9\-]+\.[a-z]+(\.[a-z]+)?$/g;
-		const regrasData = /^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/g;
 
 
 		aluno[event.target.name] = event.target.value;
@@ -82,9 +76,7 @@ export default class Aluno extends Component {
 		let isInvalidCPF = false;
 		let isInvalidEmail = false;
 		let isEmpty = false;
-		let isInvalid = false;
-		let invalidDate = false;
-		let invalidSenha = false;
+		let isInvalid = true;
 
 		// Adicionar as validações aqui!
 
@@ -110,25 +102,11 @@ export default class Aluno extends Component {
 					isInvalidEmail = true;
 				}
 			}
-
-			if (key === 'birthdate') {
-				if (!regrasData.test(aluno[key])) {
-					invalidDate = true;
-				}
-			}
-
-			if (key === 'senha') {
-				if (aluno[key].length < 6) {
-					invalidSenha = true;
-				}
-			}
 		};
-		if (!isInvalidCPF && !isInvalidEmail && !isInvalidPhone && !isEmpty && !invalidDate && !invalidSenha) {
+		if (!isInvalidCPF && !isInvalidEmail && !isInvalidPhone && !isEmpty) {
 			isInvalid = false;
-		} else
-			isInvalid = true;
-
-		this.setState({ aluno, isInvalidPhone, isInvalidCPF, isInvalidEmail, isEmpty, isInvalid, invalidDate, invalidSenha });
+		} 
+		this.setState({ aluno, isInvalidPhone, isInvalidCPF, isInvalidEmail, isEmpty, isInvalid});
 	}
 
 	renderForm() {
@@ -165,7 +143,7 @@ export default class Aluno extends Component {
 									this.state.isInvalidCPF && (
 										<div class="alert alert-danger" role="alert">
 											Você deve preencher os dados de CPF no padrão: '123.456.789-00'
-                                        </div>
+                    </div>
 									)
 								}
 								<input type="text" className='form-control'
@@ -183,7 +161,7 @@ export default class Aluno extends Component {
 									this.state.isInvalidEmail && (
 										<div class="alert alert-danger" role="alert">
 											Você deve preencher os dados de E-mail no padrão: 'teste09@puccampinas.com'
-                                        </div>
+                    </div>
 									)
 								}
 								<input type='text' className='form-control'
@@ -212,7 +190,7 @@ export default class Aluno extends Component {
 									this.state.isInvalidPhone && (
 										<div class="alert alert-danger" role="alert">
 											Você deve preencher os dados de telefone no padrão: '+55 (55) 23321-5454'
-                        </div>
+                    </div>
 									)
 								}
 								<input type='text' className='form-control'
@@ -225,59 +203,12 @@ export default class Aluno extends Component {
 						</div>
 						<div className="col-12 col-md-6">
 							<div className="form-group">
-								<label for='ra'>RA:</label>
-								<input type="text" className='form-control'
-									name='ra'
-									value={this.state.aluno.ra}
-									onChange={e => this.updateField(e)}
-									placeholder="RA"
-									required />
-							</div>
-						</div>
-						<div className="col-12 col-md-6">
-							<div className="form-group">
-								<label for='login'>Login:</label>
-								<input type="text" className='form-control'
-									name='login'
-									value={this.state.aluno.login}
-									onChange={e => this.updateField(e)}
-									placeholder="Login"
-									required />
-							</div>
-						</div>
-						<div className="col-12 col-md-6">
-							<div className="form-group">
 								<label for='birthdate'>Data de nascimento:</label>
-								{
-									this.state.invalidDate && (
-										<div class="alert alert-danger" role="alert">
-											Data invalida
-                    </div>
-									)
-								}
-								<input type="text" className='form-control'
+								<input type="date" className='form-control'
 									name='birthdate'
 									value={this.state.aluno.birthdate}
 									onChange={e => this.updateField(e)}
 									placeholder='04/06/1998'
-									required />
-							</div>
-						</div>
-						<div className="col-12 col-md-6">
-							<div className="form-group">
-								<label for='senha'>Senha:</label>
-								{
-									this.state.invalidSenha && (
-										<div class="alert alert-danger" role="alert">
-											Senha precisa ter mais que 6 caracteres
-                    </div>
-									)
-								}
-								<input className='form-control'
-									name='senha' type='password'
-									value={this.state.aluno.senha}
-									onChange={e => this.updateField(e)}
-									placeholder='********'
 									required />
 							</div>
 						</div>
@@ -334,6 +265,7 @@ export default class Aluno extends Component {
 						<th>E-mail</th>
 						<th>Endereço</th>
 						<th>Telefone</th>
+						<th>Data de Nascimento</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -353,6 +285,7 @@ export default class Aluno extends Component {
 					<td>{aluno.email}</td>
 					<td>{aluno.address}</td>
 					<td>{aluno.phone}</td>
+					<td>{aluno.birthdate}</td>
 				</tr>
 			)
 		})
