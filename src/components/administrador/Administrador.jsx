@@ -45,9 +45,6 @@ const headerProps = {
           })
       }
 
-
-     
-
       updateField(event){
         const administrador = { ...this.state.administrador };
         const regrasTelefone = /^\+?\d{2}?\s*\(\d{2}\)?\s*\d{4,5}\-?\d{4}$/g;
@@ -232,7 +229,7 @@ const headerProps = {
                 <th>Sobrenome</th>
                 <th>E-mail</th>
                 <th>Telefone</th>
-                <th>cpf</th>
+                <th>CPF</th>
               </tr>
             </thead>
             <tbody>
@@ -247,7 +244,10 @@ const headerProps = {
           return (
             <tr key={administrador.id}>
               <td>{administrador.name}</td>
-              <td>{administrador.email}</td>    
+              <td>{administrador.surname}</td>
+              <td>{administrador.email}</td>
+              <td>{administrador.phone}</td>
+              <td>{administrador.cpf}</td>    
             </tr>
           )
         })
