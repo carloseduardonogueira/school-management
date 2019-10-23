@@ -28,6 +28,8 @@ const initialState = {
 	isInvalidPhone: false,
 	isInvalidCPF: false,
 	isInvalidEmail: false,
+	invalidDate: false,
+	invalidSenha: false,
 	saved: false,
 	isEmpty: false,
 	isInvalid: false
@@ -35,82 +37,100 @@ const initialState = {
 
 export default class Aluno extends Component {
 
-	state = {...initialState}
+	state = { ...initialState }
 
-  componentWillMount(){
-    axios(baseUrl)
-      .then(res => {
-          this.setState({ list: res.data})
-      });
+	componentWillMount() {
+		axios(baseUrl)
+			.then(res => {
+				this.setState({ list: res.data })
+			});
 	}
-	
-	clear(){
-    this.setState({ aluno: initialState.aluno });
+
+	clear() {
+		this.setState({ aluno: initialState.aluno });
 	}
-	
-	save(){
-    const aluno = this.state.aluno
-    axios.post(baseUrl, aluno)
-      .then(res => {
+
+	save() {
+		const aluno = this.state.aluno
+		axios.post(baseUrl, aluno)
+			.then(res => {
 				debugger;
-        const list = this.getUpdatedList(res.data)
-        this.setState({saved: true});
-        setTimeout(() => {this.setState({ aluno: initialState.aluno, list, saved: false, isInvalid: true })},1000);
-      })
+				const list = this.getUpdatedList(res.data)
+				this.setState({ saved: true });
+				setTimeout(() => { this.setState({ aluno: initialState.aluno, list, saved: false, isInvalid: true }) }, 1000);
+			})
 	}
-	
-	getUpdatedList(aluno){
-    const list = this.state.list.filter(p => p.id !== aluno.id);
-    list.unshift(aluno);
-    return list;
+
+	getUpdatedList(aluno) {
+		const list = this.state.list.filter(p => p.id !== aluno.id);
+		list.unshift(aluno);
+		return list;
 	}
-	
-	updateField(event){
-    const aluno = { ...this.state.aluno };
-    const regrasTelefone = /^\+?\d{2}?\s*\(\d{2}\)?\s*\d{4,5}\-?\d{4}$/g;
-    const regrasCPF = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/g;
-    const regrasEmail = /^[a-zA-Z0-9.]+@[a-zA-Z0-9\-]+\.[a-z]+(\.[a-z]+)?$/g;
 
-    aluno[event.target.name] = event.target.value;
-    this.setState({ aluno });
+	updateField(event) {
+		const aluno = { ...this.state.aluno };
+		const regrasTelefone = /^\+?\d{2}?\s*\(\d{2}\)?\s*\d{4,5}\-?\d{4}$/g;
+		const regrasCPF = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/g;
+		const regrasEmail = /^[a-zA-Z0-9.]+@[a-zA-Z0-9\-]+\.[a-z]+(\.[a-z]+)?$/g;
+		const regrasData = /^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/g;
 
-    let isInvalidPhone = false;
-    let isInvalidCPF = false;
-    let isInvalidEmail = false;
-    let isEmpty = false;
-    let isInvalid = false;
 
-    // Adicionar as validações aqui!
-    
-    for (let key in aluno) {
-      if (aluno[key] === '') {
-        isEmpty = true;
-      };
+		aluno[event.target.name] = event.target.value;
+		this.setState({ aluno });
 
-      if (key === 'phone') {
-        if (!regrasTelefone.test(aluno[key])) {
-          isInvalidPhone = true;
-        };
-      };
-      if (key === 'cpf') {
-        if (!regrasCPF.test(aluno[key]) || !CPF.validate(aluno[key])) {
-          isInvalidCPF = true;
-        };
-      };
-      if (key === 'email') {
-        if (!regrasEmail.test(aluno[key])) {
-          isInvalidEmail = true;
-        };
-      };
-    };
-    if (!isInvalidCPF && !isInvalidEmail && !isInvalidPhone && !isEmpty){
-        isInvalid = false;
-		}else
+		let isInvalidPhone = false;
+		let isInvalidCPF = false;
+		let isInvalidEmail = false;
+		let isEmpty = false;
+		let isInvalid = false;
+		let invalidDate = false;
+		let invalidSenha = false;
+
+		// Adicionar as validações aqui!
+
+		for (let key in aluno) {
+			debugger;
+
+			if (aluno[key] === '') {
+				isEmpty = true;
+			};
+
+			if (key === 'phone') {
+				if (!regrasTelefone.test(aluno[key])) {
+					isInvalidPhone = true;
+				};
+			};
+			if (key === 'cpf') {
+				if (!regrasCPF.test(aluno[key]) || !CPF.validate(aluno[key])) {
+					isInvalidCPF = true;
+				};
+			};
+			if (key === 'email') {
+				if (!regrasEmail.test(aluno[key])) {
+					isInvalidEmail = true;
+				}
+			}
+
+			if (key === 'birthdate') {
+				if (!regrasData.test(aluno[key])) {
+					invalidDate = true;
+				}
+			}
+
+			if (key === 'senha') {
+				if (aluno[key].length < 6) {
+					invalidSenha = true;
+				}
+			}
+		};
+		if (!isInvalidCPF && !isInvalidEmail && !isInvalidPhone && !isEmpty && !invalidDate && !invalidSenha) {
+			isInvalid = false;
+		} else
 			isInvalid = true;
 
-    this.setState({ aluno, isInvalidPhone, isInvalidCPF, isInvalidEmail, isEmpty, isInvalid });
+		this.setState({ aluno, isInvalidPhone, isInvalidCPF, isInvalidEmail, isEmpty, isInvalid, invalidDate, invalidSenha });
 	}
-	
+
 	renderForm() {
 		return (
 			<form>
@@ -228,17 +248,31 @@ export default class Aluno extends Component {
 						<div className="col-12 col-md-6">
 							<div className="form-group">
 								<label for='birthdate'>Data de nascimento:</label>
+								{
+									this.state.invalidDate && (
+										<div class="alert alert-danger" role="alert">
+											Data invalida
+                    </div>
+									)
+								}
 								<input type="text" className='form-control'
 									name='birthdate'
 									value={this.state.aluno.birthdate}
 									onChange={e => this.updateField(e)}
 									placeholder='04/06/1998'
-									required/>
+									required />
 							</div>
 						</div>
 						<div className="col-12 col-md-6">
 							<div className="form-group">
 								<label for='senha'>Senha:</label>
+								{
+									this.state.invalidSenha && (
+										<div class="alert alert-danger" role="alert">
+											Senha precisa ter mais que 6 caracteres
+                    </div>
+									)
+								}
 								<input className='form-control'
 									name='senha' type='password'
 									value={this.state.aluno.senha}
