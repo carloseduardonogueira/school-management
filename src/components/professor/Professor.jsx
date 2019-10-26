@@ -35,9 +35,22 @@ export default class Professor extends Component {
     this.setState({ professor: initialState.professor });
   }
 
+  load(professor) {
+		this.setState({ professor })
+	}
+
+	remove(professor){
+		axios.delete(`${baseUrl}/${professor.id}`).then(res => {
+			const list = this.state.list.filter(p => p !== professor)
+			this.setState({ list })
+		})
+	}
+
   save(){
     const professor = this.state.professor
-    axios.post(baseUrl, professor)
+    const method = professor.id ? 'put' : 'post'
+		const url = professor.id ? `${baseUrl}/${professor.id}` : baseUrl
+    axios[method](url, professor)
       .then(res => {
         const list = this.getUpdatedList(res.data)
         this.setState({saved: true});
@@ -242,6 +255,7 @@ export default class Professor extends Component {
             <th>E-mail</th>
             <th>Endereço</th>
             <th>Telefone</th>
+            <th>Alterar/Excluir</th>
           </tr>
         </thead>
         <tbody>
@@ -261,6 +275,16 @@ export default class Professor extends Component {
           <td>{professor.email}</td>
           <td>{professor.address}</td>
           <td>{professor.phone}</td>
+          <td>
+						<button className='btn btn-warning'
+							onClick = {() => this.load(professor)}> 
+							<i className='fa fa-pencil'></i>
+						</button>
+						<button className='btn btn-danger ml-2'
+							onClick = {() => this.remove(professor)}> 
+							<i className='fa fa-trash'></i>
+						</button>
+					</td>
         </tr>
       )
     })

@@ -45,9 +45,22 @@ export default class Aluno extends Component {
 		this.setState({ aluno: initialState.aluno });
 	}
 
+	load(aluno) {
+		this.setState({ aluno })
+	}
+
+	remove(aluno){
+		axios.delete(`${baseUrl}/${aluno.id}`).then(res => {
+			const list = this.state.list.filter(a => a !== aluno)
+			this.setState({ list })
+		})
+	}
+
 	save() {
 		const aluno = this.state.aluno
-		axios.post(baseUrl, aluno)
+		const method = aluno.id ? 'put' : 'post'
+		const url = aluno.id ? `${baseUrl}/${aluno.id}` : baseUrl
+		axios[method](url, aluno)
 			.then(res => {
 				debugger;
 				const list = this.getUpdatedList(res.data)
@@ -57,7 +70,7 @@ export default class Aluno extends Component {
 	}
 
 	getUpdatedList(aluno) {
-		const list = this.state.list.filter(p => p.id !== aluno.id);
+		const list = this.state.list.filter(a => a.id !== aluno.id);
 		list.unshift(aluno);
 		return list;
 	}
@@ -266,6 +279,7 @@ export default class Aluno extends Component {
 						<th>Endereço</th>
 						<th>Telefone</th>
 						<th>Data de Nascimento</th>
+						<th>Alterar/Excluir</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -286,6 +300,16 @@ export default class Aluno extends Component {
 					<td>{aluno.address}</td>
 					<td>{aluno.phone}</td>
 					<td>{aluno.birthdate}</td>
+					<td>
+						<button className='btn btn-warning'
+							onClick = {() => this.load(aluno)}> 
+							<i className='fa fa-pencil'></i>
+						</button>
+						<button className='btn btn-danger ml-2'
+							onClick = {() => this.remove(aluno)}> 
+							<i className='fa fa-trash'></i>
+						</button>
+					</td>
 				</tr>
 			)
 		})
