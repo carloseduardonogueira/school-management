@@ -9,8 +9,9 @@ import Home from '../components/home/Home';
 import Login from '../components/login/Login';
 import School from '../components/school/School';
 import Professor from '../components/professor/Professor';
-import Administrador from '../components/administrador/Administrador'
-import Aluno from '../components/aluno/Aluno'
+import Administrador from '../components/administrador/Administrador';
+import Aluno from '../components/aluno/Aluno';
+import Diretor from '../components/diretor/Diretor';
 
 const wrapperLayout = (component) => <Layout>{component}</Layout>
 
@@ -21,9 +22,10 @@ export default props =>
 
         <Route exact path='/home' component={() => wrapperLayout(<Home />)} />
         <Route exact path='/escolas' component={() => wrapperLayout(<School />)} />
-        <Route exacy path='/professores' component={() => wrapperLayout(<Professor />)} />
-        <Route exacy path='/administradores' component={()=> wrapperLayout(<Administrador />)} />
-        <Route exacy path='/alunos' component={()=> wrapperLayout(<Aluno/>)}/>
+        <Route exact path='/professores' component={() => wrapperLayout(<Professor />)} />
+        <Route exact path='/administradores' component={()=> wrapperLayout(<Administrador />)} />
+        <Route exact path='/alunos' component={()=> wrapperLayout(<Aluno/>)}/>
+        <Route exact path='/diretores' component={()=> wrapperLayout(<Diretor/>)} />
         
 
         <Redirect from='*' to='/' />
