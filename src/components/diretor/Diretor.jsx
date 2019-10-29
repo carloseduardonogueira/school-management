@@ -5,13 +5,13 @@ import CPF from 'cpf-check';
 
 const headerProps = {
   icon: 'users',
-  title: 'Professores',
-  subtitle: 'Cadastrar novo professor'
+  title: 'Diretores',
+  subtitle: 'Cadastrar novo diretor'
 };
 
-const baseUrl = 'http://localhost:3001/professores'
+const baseUrl = 'http://localhost:3001/diretores'
 const initialState = {
-  professor: { name: '', surname: '', email: '', cpf: '', address: '', phone: ''},
+  diretor: { name: '', surname: '', email: '', cpf: '', address: '', phone: ''},
   list: [],
   isInvalidPhone: true,
   isInvalidCPF: true,
@@ -21,7 +21,7 @@ const initialState = {
   isInvalid: true
 }
 
-export default class Professor extends Component {
+export default class Diretor extends Component {
   state = {...initialState}
 
   componentWillMount(){
@@ -32,48 +32,48 @@ export default class Professor extends Component {
   }
 
   clear(){
-    this.setState({ professor: initialState.professor });
+    this.setState({ diretor: initialState.diretor });
   }
 
-  load(professor) {
-		this.setState({ professor })
+  load(diretor) {
+		this.setState({ diretor })
 	}
 
-	remove(professor){
-    if (window.confirm("Deseja realmente excluir este professor?")){
-      axios.delete(`${baseUrl}/${professor.id}`).then(res => {
-        const list = this.state.list.filter(p => p !== professor)
+	remove(diretor){
+    if (window.confirm("Deseja realmente excluir este diretor?")){
+      axios.delete(`${baseUrl}/${diretor.id}`).then(res => {
+        const list = this.state.list.filter(p => p !== diretor)
         this.setState({ list })
       })
     }
 	}
 
   save(){
-    const professor = this.state.professor
-    const method = professor.id ? 'put' : 'post'
-		const url = professor.id ? `${baseUrl}/${professor.id}` : baseUrl
-    axios[method](url, professor)
+    const diretor = this.state.diretor
+    const method = diretor.id ? 'put' : 'post'
+		const url = diretor.id ? `${baseUrl}/${diretor.id}` : baseUrl
+    axios[method](url, diretor)
       .then(res => {
         const list = this.getUpdatedList(res.data)
         this.setState({saved: true});
-        setTimeout(() => {this.setState({ professor: initialState.professor, list, saved: false, isInvalid: true })},1000);
+        setTimeout(() => {this.setState({ diretor: initialState.diretor, list, saved: false, isInvalid: true })},1000);
       })
   }
 
-  getUpdatedList(professor){
-    const list = this.state.list.filter(p => p.id !== professor.id);
-    list.unshift(professor);
+  getUpdatedList(diretor){
+    const list = this.state.list.filter(p => p.id !== diretor.id);
+    list.unshift(diretor);
     return list;
   }
 
   updateField(event){
-    const professor = { ...this.state.professor };
+    const diretor = { ...this.state.diretor };
     const regrasTelefone = /^\+?\d{2}?\s*\(\d{2}\)?\s*\d{4,5}\-?\d{4}$/g;
     const regrasCPF = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/g;
     const regrasEmail = /^[a-zA-Z0-9.]+@[a-zA-Z0-9\-]+\.[a-z]+(\.[a-z]+)?$/g;
 
-    professor[event.target.name] = event.target.value;
-    this.setState({ professor });
+    diretor[event.target.name] = event.target.value;
+    this.setState({ diretor });
 
     let isInvalidPhone = false;
     let isInvalidCPF = false;
@@ -83,23 +83,23 @@ export default class Professor extends Component {
 
     // Adicionar as validações aqui!
     
-    for (let key in professor) {
-      if (professor[key] === '') {
+    for (let key in diretor) {
+      if (diretor[key] === '') {
         isEmpty = true;
       };
 
       if (key === 'phone') {
-        if (!regrasTelefone.test(professor[key])) {
+        if (!regrasTelefone.test(diretor[key])) {
           isInvalidPhone = true;
         };
       };
       if (key === 'cpf') {
-        if (!regrasCPF.test(professor[key]) || !CPF.validate(professor[key])) {
+        if (!regrasCPF.test(diretor[key]) || !CPF.validate(diretor[key])) {
           isInvalidCPF = true;
         };
       };
       if (key === 'email') {
-        if (!regrasEmail.test(professor[key])) {
+        if (!regrasEmail.test(diretor[key])) {
           isInvalidEmail = true;
         };
       };
@@ -107,7 +107,7 @@ export default class Professor extends Component {
     if (!isInvalidCPF && !isInvalidEmail && !isInvalidPhone && !isEmpty){
         isInvalid = false;
     }
-    this.setState({ professor, isInvalidPhone, isInvalidCPF, isInvalidEmail, isEmpty, isInvalid });
+    this.setState({ diretor, isInvalidPhone, isInvalidCPF, isInvalidEmail, isEmpty, isInvalid });
   }
 
   renderForm() {
@@ -120,9 +120,9 @@ export default class Professor extends Component {
                 <label for="name">Nome:</label>
                 <input type='text' className='form-control'
                   name='name'
-                  value={this.state.professor.name}
+                  value={this.state.diretor.name}
                   onChange={e => this.updateField(e)}
-                  placeholder='Digite o nome do professor'
+                  placeholder='Digite o nome do diretor'
                   required />
               </div>
             </div>
@@ -131,9 +131,9 @@ export default class Professor extends Component {
                 <label for="surname">Sobrenome:</label>
                   <input type='text' className='form-control'
                     name='surname'
-                    value={this.state.professor.surname}
+                    value={this.state.diretor.surname}
                     onChange={e => this.updateField(e)}
-                    placeholder='Digite o sobrenome do professor'
+                    placeholder='Digite o sobrenome do diretor'
                     required />
               </div>
             </div>
@@ -149,9 +149,9 @@ export default class Professor extends Component {
                 }
                 <input type="text" className='form-control'
                   name='cpf'
-                  value={this.state.professor.cpf}
+                  value={this.state.diretor.cpf}
                   onChange={e => this.updateField(e)}
-                  placeholder="Digite o CPF do professor"
+                  placeholder="Digite o CPF do diretor"
                   required />
               </div>
             </div>
@@ -161,15 +161,15 @@ export default class Professor extends Component {
                 {
                   this.state.isInvalidEmail && (
                     <div class="alert alert-danger" role="alert">
-                      Você deve preencher os dados de E-mail no padrão: 'Professor09@puccampinas.com'
+                      Você deve preencher os dados de E-mail no padrão: 'diretor09@puccampinas.com'
                     </div>
                   )
                 }
                 <input type='text' className='form-control'
                   name='email'
-                  value={this.state.professor.email}
+                  value={this.state.diretor.email}
                   onChange={e => this.updateField(e)}
-                  placeholder='Digite o e-mail do professor'
+                  placeholder='Digite o e-mail do diretor'
                   required />
               </div>
             </div>
@@ -178,9 +178,9 @@ export default class Professor extends Component {
                 <label for='address'>Endereço:</label>
                 <input type="text" className='form-control'
                   name='address'
-                  value={this.state.professor.address}
+                  value={this.state.diretor.address}
                   onChange={e => this.updateField(e)}
-                  placeholder="Digite o endereço do professor"
+                  placeholder="Digite o endereço do diretor"
                   required />
               </div>
             </div>
@@ -196,9 +196,9 @@ export default class Professor extends Component {
                 }
                 <input type='text' className='form-control'
                   name='phone'
-                  value={this.state.professor.phone}
+                  value={this.state.diretor.phone}
                   onChange={e => this.updateField(e)}
-                  placeholder='Digite o telefone do professor'
+                  placeholder='Digite o telefone do diretor'
                   required />
               </div>
             </div>
@@ -235,7 +235,7 @@ export default class Professor extends Component {
               {
                 this.state.saved && (
                     <div class="alert alert-success" role="alert">
-                        Professor inserido com sucesso!
+                        diretor inserido com sucesso!
                     </div>  
                 )
               }
@@ -268,22 +268,22 @@ export default class Professor extends Component {
   }
 
   renderRows() {
-    return this.state.list.map(professor => {
+    return this.state.list.map(diretor => {
       return (
-        <tr key={professor.id}>
-          <td>{professor.name}</td>
-          <td>{professor.surname}</td>
-          <td>{professor.cpf}</td>
-          <td>{professor.email}</td>
-          <td>{professor.address}</td>
-          <td>{professor.phone}</td>
+        <tr key={diretor.id}>
+          <td>{diretor.name}</td>
+          <td>{diretor.surname}</td>
+          <td>{diretor.cpf}</td>
+          <td>{diretor.email}</td>
+          <td>{diretor.address}</td>
+          <td>{diretor.phone}</td>
           <td>
 						<button className='btn btn-warning'
-							onClick = {() => this.load(professor)}> 
+							onClick = {() => this.load(diretor)}> 
 							<i className='fa fa-pencil'></i>
 						</button>
 						<button className='btn btn-danger ml-2'
-							onClick = {() => this.remove(professor)}> 
+							onClick = {() => this.remove(diretor)}> 
 							<i className='fa fa-trash'></i>
 						</button>
 					</td>
