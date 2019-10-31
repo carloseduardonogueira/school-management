@@ -5,6 +5,7 @@ import CPF from 'cpf-check';
 
 const headerProps = {
     icon: 'users',
+    icon: 'university',
     title: 'Administrador',
     subtitle: 'Cadastrar novo administrador'
   };
