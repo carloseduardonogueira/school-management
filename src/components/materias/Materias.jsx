@@ -3,7 +3,7 @@ import Main from '../template/Main';
 import axios from 'axios';
 
 const headerProps = {
-    icon : 'university',
+    icon : 'book',
     title: 'Matérias',
     subtitle : 'Cadastrar nova matéria'
 };
@@ -14,22 +14,23 @@ const InitialState = {
     professores : [],
     alunos : [],
     list: [],
-    isInvalid : true,
+    isInvalid : false,
     saved : false,
+    isEmpty : true
 }
 
 export default class Materia extends Component{
     state = {...InitialState}
 
     componentWillMount(){
-        axios(baseUrl).then ( materias =>{
+        axios(baseUrl).then ( materia =>{
             axios("http://localhost:3001/professores").then(professores => {
-        this.setState({professores: professores.data, list: materias.data})     
+            this.setState({professores: professores.data, list: materia.data})     
         });
         })
-        axios(baseUrl).then(materias =>{
-          axios("http://localhost:3001/alunos").then(alunos =>{
-              this.setState({alunos:alunos.data,list : materias.data})
+        axios(baseUrl).then(materia =>{
+                axios("http://localhost:3001/alunos").then(alunos =>{
+                this.setState({alunos:alunos.data,list : materia.data})
           });
         })
     }
@@ -43,7 +44,7 @@ export default class Materia extends Component{
         axios.post(baseUrl,materia).then(res =>{
             const list = this.getUpdatedList(res.data)
             this.setState({saved : true});
-            setTimeout(()=>{this.setState({materia:InitialState, isInvalid:true, saved:false})})
+            setTimeout(()=>{this.setState({materia:InitialState, isInvalid:true, saved:false})},1000);
         });
     }
     
@@ -54,7 +55,15 @@ export default class Materia extends Component{
     }
 
     updateField(event){
-        console.log("chamada a função");
+        const materia = {...this.state.materia}
+        materia[event.target.name] = event.target.value;
+        
+        let isEmpty = false;
+
+        if(materia.name === '')
+            isEmpty = true;
+        
+        this.setState({materia, isEmpty});
     }
 
     renderForm(){
@@ -65,10 +74,12 @@ export default class Materia extends Component{
                        <div className = "col-12 col-md-6">
                            <div className="form-group">
                                <label for = "name">Nome:</label>
-                               <input type ="text" className='form-control' name = 'name' value ={this.state.materia.name}
-                               onchange ={e => this.updateField(e)}
-                               placeholder = "digie o nome da materia"
-                               required />
+                               <input type='text' className='form-control'
+                                 name='name'
+                                 value={this.state.materia.name}
+                                 onChange={e => this.updateField(e)}
+                                 placeholder='Digite o nome da matéria'
+                                required />
                            </div>
                        </div>
                        <div className ="col-12 col-md-6">
@@ -76,9 +87,9 @@ export default class Materia extends Component{
                                    <label for ="professor">Professor</label>
                                    <select type ='select' className="form-control"
                                    name = "professor" value={this.state.materia.professor}
-                                   onchange={e=>this.updateField(e)}
-                                   required>
+                                   onchange={e=>this.updateField(e)}>
                                        <option value ="" selected disabled>Selecione o Professor</option>
+                                       {this.renderOptions()}
                                    </select>
                                </div>
                            </div>
@@ -87,13 +98,50 @@ export default class Materia extends Component{
                                    <label for ="alunos">Alunos</label>
                                    <select multiple className="form-control"
                                    name = "alunos"  //criar função apenas na saida
-                                   onBlur={e=>this.updateField(e)}
-                                   required>
-                                       <option value = "teste1">teste 1</option>
-                                       <option value = "teste2">teste 2</option>
+                                   onBlur={e=>this.updateField(e)}>
+                                       {this.renderOptionsal()}
                                    </select>
                                </div>
                            </div>
+                   </div>
+                   <hr />
+                   <div className="row">
+                           
+                                <div className="col-12 d-flex justify-content-end">
+                                <button
+                                    className="btn btn-primary"
+                                    onClick={e => this.save(e)}
+                                    disabled={this.state.isEmpty}
+                                >
+                                    Salvar
+                                </button>
+
+                                <button
+                                    className="btn btn-secondary ml-2"
+                                    onClick={e => this.clear(e)}
+                                >
+                                    Cancelar
+                                </button>
+                                </div>
+                                <div className="col-12 d-flex justify-content-end">
+                                {
+                                    this.state.isEmpty && (
+                                    <div class="alert alert-danger" role="alert">
+                                        Você deve preencher os dados!
+                                    </div>
+                                    )
+                                }
+                                </ div>
+                                <div className="col-12 d-flex justify-content-end">
+                                {
+                                    this.state.saved && (
+                                        <div class="alert alert-success" role="alert">
+                                            Escola inserida com sucesso!
+                                        </div>  
+                                    )
+                                }
+                                </div>
+                            
                    </div>
                </div>
            </form>
@@ -101,13 +149,85 @@ export default class Materia extends Component{
         
     }
 
+    load(materia) {
+		this.setState({ materia})
+	}
+
+	remove(materia){
+    if (window.confirm("Deseja realmente excluir este matéria?")){
+      axios.delete(`${baseUrl}/${materia.id}`).then(res => {
+        const list = this.state.list.filter(m => m !== materia)
+        this.setState({ list })
+      })
+    }
+	}
+
+    renderTable() {
+        return (
+          <table className="table mt-4">
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Professor</th>
+                <th>Alunos</th>
+                <th>Alterar/Excluir</th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.renderRows()}
+            </tbody>
+          </table>
+        )
+      }
+
+      renderRows() {
+        return this.state.list.map(materia => {
+          return (
+            <tr key={materia.id}>
+              <td>{materia.name}</td>
+              <td>{materia.professor}</td>
+              <td>{materia.alunos}</td>
+              <td>
+                            <button className='btn btn-warning'
+                                onClick = {() => this.load(materia)}> 
+                                <i className='fa fa-pencil'></i>
+                            </button>
+                            <button className='btn btn-danger ml-2'
+                                onClick = {() => this.remove(materia)}> 
+                                <i className='fa fa-trash'></i>
+                            </button>
+                        </td>
+            </tr>
+          )
+        })
+      }
+    
+
     render(){
         return(
             <Main {...headerProps}>
                 {this.renderForm()}
+                {this.renderTable()}
             </Main>
         )
     }
+
+    renderOptions() {
+    return this.state.professores.map(professores => {
+      return (
+        <option>{professores.name}</option>
+      )
+    })
+  }
+
+  renderOptionsal(){
+      return this.state.alunos.map(alunos=>{
+          return(
+              <option>{alunos.name}</option>
+          )
+      })
+  }
+
 
 
 }
