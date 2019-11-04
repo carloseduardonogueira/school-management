@@ -71,6 +71,29 @@ export default class Materia extends Component {
     this.setState({ materia, isEmpty });
   }
 
+  getAlunos(event){
+    let options = event.target.options;
+    var alunos = [];
+    for(var i = 0; i < options.length; i++)
+    if(options[i].selected)
+    alunos.push(options[i].value);
+    return alunos;
+  }
+
+  updateAlunos(event){
+    let alunos = this.getAlunos(event);
+    const materia = {...this.state.materia}
+    materia[event.target.name] = alunos;
+    let isEmpty = false;
+
+    if (materia.name === '')
+      isEmpty = true;
+
+    this.setState({ materia, isEmpty });
+    console.log(materia[event.target.name]);
+  }
+
+
   renderForm() {
     return (
       <form>
@@ -104,7 +127,7 @@ export default class Materia extends Component {
                 <label>Alunos</label>
                 <select multiple className="form-control"
                   name="alunos"  //criar função apenas na saida
-                  onChange={e => this.updateField(e)}>
+                  onChange={e => this.updateAlunos(e)}>
                   {this.renderOptionsal()}
                 </select>
               </div>
