@@ -28,11 +28,8 @@ export default props =>
         <Route exact path='/administradores' component={()=> wrapperLayout(<Administrador />)} />
         <Route exact path='/alunos' component={()=> wrapperLayout(<Aluno />)}/>
         <Route exact path='/diretores' component={()=> wrapperLayout(<Diretor />)} />
-        <Route exact path='/materias' component={(props) => {
-            console.log(props, 'aaaaa');
-            return wrapperLayout(<Materia />)}
-        }/>
-        <Route exact path='/grades' component={()=> wrapperLayout(<Grades />)}/>
+        <Route exact path='/materias' render={(props) => wrapperLayout(<Materia {...props} />)}/>
+        <Route exact path='/grades' component={(props) => wrapperLayout(<Grades materia={props.location.props} />)}/>
 
         <Redirect from='*' to='/' />
     </Switch>

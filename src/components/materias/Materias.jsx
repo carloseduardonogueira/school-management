@@ -39,6 +39,10 @@ export default class Materia extends Component {
     })
   }
 
+  componentWillUnmount() {
+    window.onbeforeunload = undefined
+  }
+
   clear() {
     this.setState({ state: this.initialState });
   }
@@ -128,6 +132,7 @@ export default class Materia extends Component {
                 <select multiple className="form-control"
                   name="alunos"  //criar função apenas na saida
                   onChange={e => this.updateAlunos(e)}>
+                  <option value='' selected disabled>Selecione os alunos (Pressione Ctrl para selecionar mais de um)</option>
                   {this.renderOptionsal()}
                 </select>
               </div>
@@ -184,7 +189,7 @@ export default class Materia extends Component {
   redirect() {
     if( this.state.redirect){
       console.log(this.state.materia_redirect)
-      return <Redirect to={{pathname: "/grades", state: this.state.materia_redirect}} />
+      return <Redirect to={{pathname: "/grades", props: this.state.materia_redirect}} />
     }
   }
 
