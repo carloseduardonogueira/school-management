@@ -49,7 +49,9 @@ export default class Materia extends Component {
 
   save() {
     const materia = this.state.materia;
-    axios.post(baseUrl, materia).then(res => {
+    const method = materia.id ? 'put' : 'post'
+    const url = materia.id ? `${baseUrl}/${materia.id}` : baseUrl
+    axios[method](url, materia).then(res => {
       const list = this.getUpdatedList(res.data)
       this.setState({ saved: true });
       setTimeout(() => { this.setState({ materia: InitialState, isInvalid: true, saved: false }) }, 1000);
