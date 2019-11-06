@@ -13,7 +13,7 @@ const InitialState = {
 
 }
 
-export default class Materia extends Component {
+export default class Grades extends Component {
   state = { ...InitialState }
 
   componentWillMount() {

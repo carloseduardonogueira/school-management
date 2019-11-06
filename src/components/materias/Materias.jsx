@@ -184,7 +184,7 @@ export default class Materia extends Component {
   redirect() {
     if( this.state.redirect){
       console.log(this.state.materia_redirect)
-      return <Redirect to=/* {{pathname: */ "/grades"/* , state:materia}} */ />
+      return <Redirect to={{pathname: "/grades", state: this.state.materia_redirect}} />
     }
   }
 
