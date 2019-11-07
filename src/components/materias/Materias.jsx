@@ -172,7 +172,7 @@ export default class Materia extends Component {
               {
                 this.state.saved && (
                   <div class="alert alert-success" role="alert">
-                    Escola inserida com sucesso!
+                    Matéria inserida com sucesso!
                   </div>
                 )
               }
