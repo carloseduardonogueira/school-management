@@ -27,5 +27,8 @@ export default props =>
        <Link to="/materias">
          <i class ="fa fa-book"></i> Matérias
             </Link>
+        <Link to="/ocorrencias">
+          <i class = "fa fa-users"></i> Ocorrencias
+        </Link>
     </nav>
   </aside>
