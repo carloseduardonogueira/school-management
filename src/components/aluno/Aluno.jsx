@@ -122,7 +122,7 @@ export default class Aluno extends Component {
 				}
 			}
 		};
-		if (!isInvalidCPF && !isInvalidEmail && !isInvalidPhone && isInvalidDate && !isEmpty) {
+		if (!isInvalidCPF && !isInvalidEmail && !isInvalidPhone && !isInvalidDate && !isEmpty) {
 			isInvalid = false;
 		} 
 		this.setState({ aluno, isInvalidPhone, isInvalidCPF, isInvalidEmail, isInvalidDate, isEmpty, isInvalid});
