@@ -11,12 +11,12 @@ const headerProps = {
 
   const baseUrl = 'http://localhost:3001/ocorrencias';
   const InitialState = {
-    ocorrencia: { name:'' , aluno:' ', imagem: null},
+    ocorrencia: { name:'' , aluno:' ', foto:''},
     alunos:[],
     list:[],
     isInvalid : false,
     saved : false,
-    isEmpty : true
+    isEmpty : false
   }
   
   export default class Ocorrência extends Component{
@@ -24,9 +24,9 @@ const headerProps = {
     state = { ...InitialState }
 
     componentWillMount(){
-      axios(baseUrl).then(ocorrencia => {
+      axios(baseUrl).then(Ocorrência => {
         axios("http://localhost:3001/alunos").then(alunos => {
-          this.setState({ alunos: alunos.data, list: ocorrencia.data })
+          this.setState({ alunos: alunos.data, list: Ocorrência.data })
         });
       })
     }
@@ -58,21 +58,19 @@ const headerProps = {
 
     updateField(event){
       const ocorrencia = { ...this.state.ocorrencia }
+      let isEmpty = true;
+      console.log(event.target.value);
       ocorrencia[event.target.name] = event.target.value;
-      let isEmpty = false;
-      if(ocorrencia.name === '' || ocorrencia.aluno === '' ) 
-      isEmpty = true;
+      if(ocorrencia.aluno != "" && ocorrencia.name != "")
+      isEmpty = false;
       this.setState({ocorrencia, isEmpty});
     }
 
     fileSelect(event){
       const ocorrencia = {... this.state.ocorrencia}
-      ocorrencia[event.target.name] = event.target.files[0];
+      ocorrencia[event.target.name] = event.target.files[0].name;
       console.log(ocorrencia[event.target.name]);
-      let isEmpty = false;
-      if(ocorrencia.imagem == null)
-      isEmpty = true;
-      this.setState({ocorrencia, isEmpty})
+      this.setState({ocorrencia});
     }
 
     remove(ocorrencia) {
@@ -98,16 +96,16 @@ const headerProps = {
           <tr key={ocorrencia.id}>
             <td>{ocorrencia.name}</td>
             <td>{ocorrencia.aluno}</td>
-            <td>{ocorrencia.imagem}</td>
+            <td>{ocorrencia.foto}</td>
             <td>
-              <button className='btn btn-warning'
+              {<button className='btn btn-warning'
                 onClick = {() => this.load(ocorrencia)}> 
                 <i className='fa fa-pencil'></i>
-              </button>
-              {/* <button className='btn btn-danger ml-2'
+              </button>}
+              {<button className='btn btn-danger ml-2'
                 onClick = {() => this.remove(ocorrencia)}> 
                 <i className='fa fa-trash'></i>
-              </button> */}
+              </button> }
             </td>
           </tr>
         )
@@ -121,8 +119,8 @@ const headerProps = {
                    <div className="row">
                        <div className="col-12 col-md-6">
                            <div className="form-group">
-                                <label for = "ocorrencia">Ocorrência:</label>
-                                <input type = "text" className = "form-control" name = "ocorrencia" placeholder = "digite a ocorrência" onChange = { e => this.updateField(e) }/>
+                                <label for = "name">Ocorrência:</label>
+                                <input type = "text" className = "form-control" name = "name" placeholder = "digite a ocorrência" onChange = { e => this.updateField(e) }/>
                             </div>
                        </div> 
                        <div className = "col-12 col-md-6">
