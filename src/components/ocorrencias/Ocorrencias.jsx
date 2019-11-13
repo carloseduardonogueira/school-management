@@ -11,12 +11,13 @@ const headerProps = {
 
   const baseUrl = 'http://localhost:3001/ocorrencias';
   const InitialState = {
-    ocorrencia: { name:'' , aluno:' ', foto:''},
+    ocorrencia: { name:'' , aluno:'', foto:''},
     alunos:[],
     list:[],
     isInvalid : false,
     saved : false,
-    isEmpty : true
+    isEmpty : true,
+    path : ''
   }
   
   export default class Ocorrência extends Component{
@@ -66,11 +67,17 @@ const headerProps = {
       this.setState({ocorrencia, isEmpty});
     }
 
+    displayImg(event){
+      let img = document.getElementById("imagem");
+      img.src = URL.createObjectURL(event.target.files[0]);
+    }
+
     fileSelect(event){
       const ocorrencia = {... this.state.ocorrencia}
-      ocorrencia[event.target.name] = event.target.files[0].name;
-      console.log(ocorrencia[event.target.name]);
+      ocorrencia[event.target.name] = event.target.files[0].name
+      console.log(event.target.files[0].name);
       this.setState({ocorrencia});
+      this.displayImg(event);
     }
 
     remove(ocorrencia) {
@@ -120,7 +127,7 @@ const headerProps = {
                        <div className="col-12 col-md-6">
                            <div className="form-group">
                                 <label for = "name">Ocorrência:</label>
-                                <input type = "text" className = "form-control" name = "name" placeholder = "Digite a ocorrência" onChange = { e => this.updateField(e) } required/>
+                                <input type = "text" className = "form-control" name = "name" placeholder = "Digite a ocorrência" onChange = { e => this.updateField(e) } value = {this.state.ocorrencia.name} required/>
                             </div>
                        </div> 
                        <div className = "col-12 col-md-6">
@@ -128,7 +135,6 @@ const headerProps = {
                                <label for = "aluno">Aluno</label>
                                <select type = "select" className = "form-control"  name = "aluno" onChange = {e => this.updateField(e)}>
                                <option selected disabled>Selecione o aluno</option>
-                               <option>teste</option>
                                {this.renderOptions()}
                                </select>
                            </div>
@@ -140,6 +146,7 @@ const headerProps = {
                            <div className = "from-group">
                                <label for = "foto"> Subir foto da Ocorrência:</label>
                                <input type = "file" name = "foto" accept="image/*" onChange = {e => this.fileSelect(e)}/>
+                               <img id="imagem" width = "100"/>
                            </div>
                        </div>
                    </div>
