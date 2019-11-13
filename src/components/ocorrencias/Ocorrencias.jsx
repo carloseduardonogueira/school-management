@@ -24,14 +24,14 @@ const headerProps = {
     state = { ...InitialState }
 
     componentWillMount(){
-      axios(baseUrl).then(Ocorrência => {
+      axios(baseUrl).then(ocorrencia => {
         axios("http://localhost:3001/alunos").then(alunos => {
-          this.setState({ alunos: alunos.data, list: Ocorrência.data })
+          this.setState({ alunos: alunos.data, list: ocorrencia.data })
         });
       })
     }
 
-    load(ocorrencia) {
+    load(ocorrencia){
       this.setState({ ocorrencia })
     }
 
@@ -120,7 +120,7 @@ const headerProps = {
                        <div className="col-12 col-md-6">
                            <div className="form-group">
                                 <label for = "name">Ocorrência:</label>
-                                <input type = "text" className = "form-control" name = "name" placeholder = "digite a ocorrência" onChange = { e => this.updateField(e) }/>
+                                <input type = "text" className = "form-control" name = "name" placeholder = "Digite a ocorrência" onChange = { e => this.updateField(e) } required/>
                             </div>
                        </div> 
                        <div className = "col-12 col-md-6">
@@ -192,7 +192,8 @@ const headerProps = {
                    <tr>
                        <th>Ocorrência</th>
                        <th>Aluno</th>
-                       <th>foto</th>
+                       <th>Foto</th>
+                       <th>Alterar/Excluir</th>
                    </tr>
                </thead>
                <tbody>
