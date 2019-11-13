@@ -5,6 +5,7 @@ import CPF from 'cpf-check';
 
 const headerProps = {
     icon: 'users',
+    icon: 'university',
     title: 'Administrador',
     subtitle: 'Cadastrar novo administrador'
   };
@@ -48,8 +49,8 @@ const headerProps = {
 
       updateField(event){
         const administrador = { ...this.state.administrador };
-        const regrasTelefone = /^\+?\d{2}?\s*\(\d{2}\)?\s*\d{4,5}\-?\d{4}$/g;
-        const regrasTelefone2 = /^\+?\d{2}?\s*\(\d{2}\)?\s*\d{4,5}\-?\d{4}$/g;
+        const regrasTelefone = /^\+\d{2}?\s*\(\d{2}\)\s*\d{4,5}\-?\d{4}$/g;
+        const regrasTelefone2 = /^\+\d{2}?\s*\(\d{2}\)\s*\d{4,5}\-?\d{4}$/g;
         const regrasCPF = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/g;
         const regrasEmail = /^[a-zA-Z0-9.]+@[a-zA-Z0-9\-]+\.[a-z]+(\.[a-z]+)?$/g;
     

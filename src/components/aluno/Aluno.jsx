@@ -25,6 +25,7 @@ const initialState = {
 	isInvalidPhone: true,
 	isInvalidCPF: true,
 	isInvalidEmail: true,
+	isInvalidDate: true,
 	saved: false,
 	isEmpty: true,
 	isInvalid: true
@@ -77,10 +78,10 @@ export default class Aluno extends Component {
 
 	updateField(event) {
 		const aluno = { ...this.state.aluno };
-		const regrasTelefone = /^\+?\d{2}?\s*\(\d{2}\)?\s*\d{4,5}\-?\d{4}$/g;
+		const regrasTelefone = /^\+\d{2}?\s*\(\d{2}\)\s*\d{4,5}\-?\d{4}$/g;
 		const regrasCPF = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/g;
 		const regrasEmail = /^[a-zA-Z0-9.]+@[a-zA-Z0-9\-]+\.[a-z]+(\.[a-z]+)?$/g;
-
+		let today = new Date().toISOString().slice(0, 10)
 
 		aluno[event.target.name] = event.target.value;
 		this.setState({ aluno });
@@ -88,13 +89,13 @@ export default class Aluno extends Component {
 		let isInvalidPhone = false;
 		let isInvalidCPF = false;
 		let isInvalidEmail = false;
+		let isInvalidDate = false;
 		let isEmpty = false;
 		let isInvalid = true;
 
 		// Adicionar as validações aqui!
 
 		for (let key in aluno) {
-			debugger;
 
 			if (aluno[key] === '') {
 				isEmpty = true;
@@ -110,16 +111,21 @@ export default class Aluno extends Component {
 					isInvalidCPF = true;
 				};
 			};
+			if (key === 'birthdate') { 
+				if(today < aluno[key]){
+					isInvalidDate = true;	
+				}			
+			};
 			if (key === 'email') {
 				if (!regrasEmail.test(aluno[key])) {
 					isInvalidEmail = true;
 				}
 			}
 		};
-		if (!isInvalidCPF && !isInvalidEmail && !isInvalidPhone && !isEmpty) {
+		if (!isInvalidCPF && !isInvalidEmail && !isInvalidPhone && !isInvalidDate && !isEmpty) {
 			isInvalid = false;
 		} 
-		this.setState({ aluno, isInvalidPhone, isInvalidCPF, isInvalidEmail, isEmpty, isInvalid});
+		this.setState({ aluno, isInvalidPhone, isInvalidCPF, isInvalidEmail, isInvalidDate, isEmpty, isInvalid});
 	}
 
 	renderForm() {
@@ -217,11 +223,17 @@ export default class Aluno extends Component {
 						<div className="col-12 col-md-6">
 							<div className="form-group">
 								<label for='birthdate'>Data de nascimento:</label>
+								{
+									this.state.isInvalidDate && (
+										<div class="alert alert-danger" role="alert">
+											Você deve inserir uma data menor que a atual
+                    </div>
+									)
+								}
 								<input type="date" className='form-control'
 									name='birthdate'
 									value={this.state.aluno.birthdate}
 									onChange={e => this.updateField(e)}
-									placeholder='04/06/1998'
 									required />
 							</div>
 						</div>

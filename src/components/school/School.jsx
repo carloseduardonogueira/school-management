@@ -51,7 +51,7 @@ export default class School extends Component {
 
   updateField(event) {
     const school = { ...this.state.school };
-    const regrasTelefone = /^\+?\d{2}?\s*\(\d{2}\)?\s*\d{4,5}\-?\d{4}$/g;
+    const regrasTelefone = /^\+\d{2}?\s*\(\d{2}\)\s*\d{4,5}\-?\d{4}$/g;
 
     let isInvalid = false;
     let isInvalidPhone = false;
