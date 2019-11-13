@@ -16,7 +16,7 @@ const headerProps = {
     list:[],
     isInvalid : false,
     saved : false,
-    isEmpty : false
+    isEmpty : true
   }
   
   export default class Ocorrência extends Component{
