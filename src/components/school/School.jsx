@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Prompt } from 'react-router';
+
 import Main from '../template/Main';
 import axios from 'axios';
 
@@ -221,11 +223,20 @@ export default class School extends Component {
   }
 
   render() {
+    const { school } = this.state;
+    const tenhoDados = school.name === '' || school.endereco === '' || school.diretor === '' || school.fone === '';
+
     return (
-      <Main {...headerProps}>
-        {this.renderForm()}
-        {this.renderTable()}
-      </Main>
+      <React.Fragment>
+        <Prompt
+          when={tenhoDados}
+          message='Você irá perder seus dados, tem certeza que deseja sair?'
+        />
+        <Main {...headerProps}>
+          {this.renderForm()}
+          {this.renderTable()}
+        </Main>
+      </React.Fragment>
     )
   }
 }
