@@ -30,5 +30,8 @@ export default props =>
         <Link to="/ocorrencias">
           <i class = "fa fa-users"></i> Ocorrencias
         </Link>
+        <Link to="/notas">
+          <i class = "fa fa-star"></i> Notas 
+        </Link>
     </nav>
   </aside>

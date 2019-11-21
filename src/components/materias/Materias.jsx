@@ -79,18 +79,18 @@ export default class Materia extends Component {
     this.setState({ materia, isEmpty });
   }
 
-  getAlunos(event){
+  getAlunos(event) {
     let options = event.target.options;
     var alunos = [];
-    for(var i = 0; i < options.length; i++)
-    if(options[i].selected)
-    alunos.push(options[i].value);
+    for (var i = 0; i < options.length; i++)
+      if (options[i].selected)
+        alunos.push(options[i].value);
     return alunos;
   }
 
-  updateAlunos(event){
+  updateAlunos(event) {
     let alunos = this.getAlunos(event);
-    const materia = {...this.state.materia}
+    const materia = { ...this.state.materia }
     materia[event.target.name] = alunos;
     let isEmpty = false;
 
@@ -191,9 +191,9 @@ export default class Materia extends Component {
   }
 
   redirect() {
-    if( this.state.redirect){
+    if (this.state.redirect) {
       console.log(this.state.materia_redirect)
-      return <Redirect to={{pathname: "/grades", props: this.state.materia_redirect}} />
+      return <Redirect to={{ pathname: "/grades", props: this.state.materia_redirect }} />
     }
   }
 
@@ -239,7 +239,7 @@ export default class Materia extends Component {
               <i className='fa fa-trash'></i>
             </button>
             <button className='btn btn-info ml-2'
-              onClick={() => this.setState({redirect: true, materia_redirect: materia})}>
+              onClick={() => this.setState({ redirect: true, materia_redirect: materia })}>
               <i className='fa fa-bar-chart'></i>
             </button>
             {this.redirect()}
