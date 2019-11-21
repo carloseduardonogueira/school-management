@@ -11,7 +11,7 @@ const headerProps = {
 
 const baseUrl = 'http://localhost:3001/diretores'
 const initialState = {
-  diretor: { name: '', surname: '', email: '', cpf: '', address: '', phone: ''},
+  diretor: { name: '', surname: '', email: '', cpf: '', address: '', phone: '' },
   list: [],
   isInvalidPhone: true,
   isInvalidCPF: true,
@@ -22,51 +22,51 @@ const initialState = {
 }
 
 export default class Diretor extends Component {
-  state = {...initialState}
+  state = { ...initialState }
 
-  componentWillMount(){
+  componentWillMount() {
     axios(baseUrl)
       .then(res => {
-          this.setState({ list: res.data})
+        this.setState({ list: res.data })
       });
   }
 
-  clear(){
+  clear() {
     this.setState({ diretor: initialState.diretor });
   }
 
   load(diretor) {
-		this.setState({ diretor })
-	}
+    this.setState({ diretor })
+  }
 
-	remove(diretor){
-    if (window.confirm("Deseja realmente excluir este diretor?")){
+  remove(diretor) {
+    if (window.confirm("Deseja realmente excluir este diretor?")) {
       axios.delete(`${baseUrl}/${diretor.id}`).then(res => {
         const list = this.state.list.filter(p => p !== diretor)
         this.setState({ list })
       })
     }
-	}
+  }
 
-  save(){
+  save() {
     const diretor = this.state.diretor
     const method = diretor.id ? 'put' : 'post'
-		const url = diretor.id ? `${baseUrl}/${diretor.id}` : baseUrl
+    const url = diretor.id ? `${baseUrl}/${diretor.id}` : baseUrl
     axios[method](url, diretor)
       .then(res => {
         const list = this.getUpdatedList(res.data)
-        this.setState({saved: true});
-        setTimeout(() => {this.setState({ diretor: initialState.diretor, list, saved: false, isInvalid: true })},1000);
+        this.setState({ saved: true });
+        setTimeout(() => { this.setState({ diretor: initialState.diretor, list, saved: false, isInvalid: true }) }, 1000);
       })
   }
 
-  getUpdatedList(diretor){
+  getUpdatedList(diretor) {
     const list = this.state.list.filter(p => p.id !== diretor.id);
     list.unshift(diretor);
     return list;
   }
 
-  updateField(event){
+  updateField(event) {
     const diretor = { ...this.state.diretor };
     const regrasTelefone = /^\+\d{2}?\s*\(\d{2}\)\s*\d{4,5}\-?\d{4}$/g;
     const regrasCPF = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/g;
@@ -82,7 +82,7 @@ export default class Diretor extends Component {
     let isInvalid = true;
 
     // Adicionar as validações aqui!
-    
+
     for (let key in diretor) {
       if (diretor[key] === '') {
         isEmpty = true;
@@ -104,8 +104,8 @@ export default class Diretor extends Component {
         };
       };
     };
-    if (!isInvalidCPF && !isInvalidEmail && !isInvalidPhone && !isEmpty){
-        isInvalid = false;
+    if (!isInvalidCPF && !isInvalidEmail && !isInvalidPhone && !isEmpty) {
+      isInvalid = false;
     }
     this.setState({ diretor, isInvalidPhone, isInvalidCPF, isInvalidEmail, isEmpty, isInvalid });
   }
@@ -129,12 +129,12 @@ export default class Diretor extends Component {
             <div className="col-12 col-md-6">
               <div className="form-group">
                 <label for="surname">Sobrenome:</label>
-                  <input type='text' className='form-control'
-                    name='surname'
-                    value={this.state.diretor.surname}
-                    onChange={e => this.updateField(e)}
-                    placeholder='Digite o sobrenome do diretor'
-                    required />
+                <input type='text' className='form-control'
+                  name='surname'
+                  value={this.state.diretor.surname}
+                  onChange={e => this.updateField(e)}
+                  placeholder='Digite o sobrenome do diretor'
+                  required />
               </div>
             </div>
             <div className="col-12 col-md-6">
@@ -210,7 +210,7 @@ export default class Diretor extends Component {
               <button
                 className="btn btn-primary"
                 onClick={e => this.save(e)}
-                disabled={this.state.isInvalid }
+                disabled={this.state.isInvalid}
               >
                 Salvar
               </button>
@@ -230,13 +230,13 @@ export default class Diretor extends Component {
                   </div>
                 )
               }
-              </ div>
-              <div className="col-12 d-flex justify-content-end">
+            </ div>
+            <div className="col-12 d-flex justify-content-end">
               {
                 this.state.saved && (
-                    <div class="alert alert-success" role="alert">
-                        diretor inserido com sucesso!
-                    </div>  
+                  <div class="alert alert-success" role="alert">
+                    diretor inserido com sucesso!
+                    </div>
                 )
               }
             </div>
@@ -278,15 +278,15 @@ export default class Diretor extends Component {
           <td>{diretor.address}</td>
           <td>{diretor.phone}</td>
           <td>
-						<button className='btn btn-warning'
-							onClick = {() => this.load(diretor)}> 
-							<i className='fa fa-pencil'></i>
-						</button>
-						<button className='btn btn-danger ml-2'
-							onClick = {() => this.remove(diretor)}> 
-							<i className='fa fa-trash'></i>
-						</button>
-					</td>
+            <button className='btn btn-warning'
+              onClick={() => this.load(diretor)}>
+              <i className='fa fa-pencil'></i>
+            </button>
+            <button className='btn btn-danger ml-2'
+              onClick={() => this.remove(diretor)}>
+              <i className='fa fa-trash'></i>
+            </button>
+          </td>
         </tr>
       )
     })

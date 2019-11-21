@@ -111,10 +111,10 @@ export default class Aluno extends Component {
 					isInvalidCPF = true;
 				};
 			};
-			if (key === 'birthdate') { 
-				if(today < aluno[key]){
-					isInvalidDate = true;	
-				}			
+			if (key === 'birthdate') {
+				if (today < aluno[key]) {
+					isInvalidDate = true;
+				}
 			};
 			if (key === 'email') {
 				if (!regrasEmail.test(aluno[key])) {
@@ -124,8 +124,8 @@ export default class Aluno extends Component {
 		};
 		if (!isInvalidCPF && !isInvalidEmail && !isInvalidPhone && !isInvalidDate && !isEmpty) {
 			isInvalid = false;
-		} 
-		this.setState({ aluno, isInvalidPhone, isInvalidCPF, isInvalidEmail, isInvalidDate, isEmpty, isInvalid});
+		}
+		this.setState({ aluno, isInvalidPhone, isInvalidCPF, isInvalidEmail, isInvalidDate, isEmpty, isInvalid });
 	}
 
 	renderForm() {
@@ -314,7 +314,7 @@ export default class Aluno extends Component {
 					<td>{aluno.birthdate}</td>
 					<td>
 						<button className='btn btn-warning'
-							onClick = {() => this.load(aluno)}> 
+							onClick={() => this.load(aluno)}>
 							<i className='fa fa-pencil'></i>
 						</button>
 						{/* <button className='btn btn-danger ml-2'
