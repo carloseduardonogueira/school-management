@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Main from '../template/Main';
 import axios from 'axios';
-import Materia from '../materias/Materias';
 
 const headerProps = {
   icon: 'users',
@@ -11,16 +10,16 @@ const headerProps = {
 
 const baseUrl = 'http://localhost:3001/ocorrencias';
 const InitialState = {
-  ocorrencia: { name: '', aluno: ' ', foto: '' },
+  ocorrencia: { name: '', aluno: '', foto: '' },
   alunos: [],
   list: [],
   isInvalid: false,
   saved: false,
-  isEmpty: true
+  isEmpty: true,
+  path: ''
 }
 
-export default class Ocorrência extends Component {
-
+export default class Ocorrencia extends Component {
   state = { ...InitialState }
 
   componentWillMount() {
@@ -66,11 +65,17 @@ export default class Ocorrência extends Component {
     this.setState({ ocorrencia, isEmpty });
   }
 
+  displayImg(event) {
+    let img = document.getElementById("imagem");
+    img.src = URL.createObjectURL(event.target.files[0]);
+  }
+
   fileSelect(event) {
     const ocorrencia = { ... this.state.ocorrencia }
-    ocorrencia[event.target.name] = event.target.files[0].name;
-    console.log(ocorrencia[event.target.name]);
+    ocorrencia[event.target.name] = event.target.files[0].name
+    console.log(event.target.files[0].name);
     this.setState({ ocorrencia });
+    this.displayImg(event);
   }
 
   remove(ocorrencia) {
@@ -120,7 +125,7 @@ export default class Ocorrência extends Component {
             <div className="col-12 col-md-6">
               <div className="form-group">
                 <label for="name">Ocorrência:</label>
-                <input type="text" className="form-control" name="name" placeholder="Digite a ocorrência" onChange={e => this.updateField(e)} required />
+                <input type="text" className="form-control" name="name" placeholder="Digite a ocorrência" onChange={e => this.updateField(e)} value={this.state.ocorrencia.name} required />
               </div>
             </div>
             <div className="col-12 col-md-6">
@@ -128,7 +133,6 @@ export default class Ocorrência extends Component {
                 <label for="aluno">Aluno</label>
                 <select type="select" className="form-control" name="aluno" onChange={e => this.updateField(e)}>
                   <option selected disabled>Selecione o aluno</option>
-                  <option>teste</option>
                   {this.renderOptions()}
                 </select>
               </div>
@@ -140,6 +144,7 @@ export default class Ocorrência extends Component {
               <div className="from-group">
                 <label for="foto"> Subir foto da Ocorrência:</label>
                 <input type="file" name="foto" accept="image/*" onChange={e => this.fileSelect(e)} />
+                <img id="imagem" width="100" />
               </div>
             </div>
           </div>
@@ -211,6 +216,5 @@ export default class Ocorrência extends Component {
       </Main>
     )
   }
-
-
 }
+
