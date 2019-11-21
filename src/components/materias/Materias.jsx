@@ -213,7 +213,7 @@ export default class Materia extends Component {
           <tr>
             <th>Nome</th>
             <th>Professor</th>
-            <th>Opções</th>
+            <th>Alterar/Excluir/Notas</th>
           </tr>
         </thead>
         <tbody>

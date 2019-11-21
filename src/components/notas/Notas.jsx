@@ -8,23 +8,20 @@ const headerProps = {
   subtitle: 'Nota dos alunos'
 };
 
-const baseUrl = 'http://localhost:3001/ocorrencias';
+const baseUrl = 'http://localhost:3001/notas';
 const InitialState = {
-  ocorrencia: { name: '', aluno: ' ', foto: '' },
-  alunos: [],
-  list: [],
-  isInvalid: false,
-  saved: false,
-  isEmpty: true
+  notas: [],
+  materias: [],
 }
 
 export default class Ocorrência extends Component {
   state = { ...InitialState }
 
   componentWillMount() {
-    axios(baseUrl).then(ocorrencia => {
-      axios("http://localhost:3001/alunos").then(alunos => {
-        this.setState({ alunos: alunos.data, list: ocorrencia.data })
+    axios(baseUrl).then(notas => {
+      this.setState({ notas: notas.data })
+      axios("http://localhost:3001/materias").then(materias => {
+        this.setState({ materias: materias.data })
       });
     })
   }
@@ -57,25 +54,23 @@ export default class Ocorrência extends Component {
   }
 
   renderRows() {
-    return this.state.list.map(ocorrencia => {
-      return (
-        <tr key={ocorrencia.id}>
-          <td>{ocorrencia.name}</td>
-          <td>{ocorrencia.aluno}</td>
-          <td>{ocorrencia.foto}</td>
-          <td>
-            {<button className='btn btn-warning'
-              onClick={() => this.load(ocorrencia)}>
-              <i className='fa fa-pencil'></i>
-            </button>}
-            {<button className='btn btn-danger ml-2'
-              onClick={() => this.remove(ocorrencia)}>
-              <i className='fa fa-trash'></i>
-            </button>}
-          </td>
+    const { notas, materias } = this.state;
+    const finalNotas = [];
+    
+    notas.forEach(nota => {
+      const objetoKey = Object.entries(nota);
+      objetoKey.forEach(info => {
+
+      });
+    })
+
+    console.log(this.state.notas[0]);
+    return (
+        <tr>
+          <td></td>
         </tr>
       )
-    })
+
   }
 
   renderTable() {
