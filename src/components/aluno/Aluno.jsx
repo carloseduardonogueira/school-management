@@ -19,12 +19,16 @@ const initialState = {
 		cpf: '',
 		address: '',
 		phone: '',
-		birthdate: ''
+		birthdate: '',
+		name_resp: '',
+		email_resp: '',
+		password_resp: ''
 	},
 	list: [],
 	isInvalidPhone: true,
 	isInvalidCPF: true,
 	isInvalidEmail: true,
+	isInvalidEmail2: true,
 	isInvalidDate: true,
 	saved: false,
 	isEmpty: true,
@@ -81,6 +85,7 @@ export default class Aluno extends Component {
 		const regrasTelefone = /^\+\d{2}?\s*\(\d{2}\)\s*\d{4,5}\-?\d{4}$/g;
 		const regrasCPF = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/g;
 		const regrasEmail = /^[a-zA-Z0-9.]+@[a-zA-Z0-9\-]+\.[a-z]+(\.[a-z]+)?$/g;
+		const regrasEmail2 = /^[a-zA-Z0-9.]+@[a-zA-Z0-9\-]+\.[a-z]+(\.[a-z]+)?$/g;
 		let today = new Date().toISOString().slice(0, 10)
 
 		aluno[event.target.name] = event.target.value;
@@ -89,6 +94,7 @@ export default class Aluno extends Component {
 		let isInvalidPhone = false;
 		let isInvalidCPF = false;
 		let isInvalidEmail = false;
+		let isInvalidEmail2 = false;
 		let isInvalidDate = false;
 		let isEmpty = false;
 		let isInvalid = true;
@@ -120,12 +126,17 @@ export default class Aluno extends Component {
 				if (!regrasEmail.test(aluno[key])) {
 					isInvalidEmail = true;
 				}
+			};
+			if (key === 'email_resp') {
+				if (!regrasEmail2.test(aluno[key])) {
+					isInvalidEmail2 = true;
+				}
 			}
 		};
-		if (!isInvalidCPF && !isInvalidEmail && !isInvalidPhone && !isInvalidDate && !isEmpty) {
+		if (!isInvalidCPF && !isInvalidEmail  && !isInvalidEmail2 && !isInvalidPhone && !isInvalidDate && !isEmpty) {
 			isInvalid = false;
 		}
-		this.setState({ aluno, isInvalidPhone, isInvalidCPF, isInvalidEmail, isInvalidDate, isEmpty, isInvalid });
+		this.setState({ aluno, isInvalidPhone, isInvalidCPF, isInvalidEmail, isInvalidEmail2, isInvalidDate, isEmpty, isInvalid });
 	}
 
 	renderForm() {
@@ -237,6 +248,46 @@ export default class Aluno extends Component {
 									required />
 							</div>
 						</div>
+						<div className="col-12 col-md-6">
+							<div className="form-group">
+								<label for="name_resp">Nome do Responsável:</label>
+								<input type='text' className='form-control'
+									name='name_resp'
+									value={this.state.aluno.name_resp}
+									onChange={e => this.updateField(e)}
+									placeholder='Digite o nome do responsável do aluno'
+									required />
+							</div>
+						</div>
+						<div className="col-12 col-md-6">
+							<div className="form-group">
+								<label>E-mail (Responsável):</label>
+								{
+									this.state.isInvalidEmail2 && (
+										<div class="alert alert-danger" role="alert">
+											Você deve preencher os dados de E-mail no padrão: 'teste09@puccampinas.com'
+                    </div>
+									)
+								}
+								<input type='text' className='form-control'
+									name='email_resp'
+									value={this.state.aluno.email_resp}
+									onChange={e => this.updateField(e)}
+									placeholder='Digite o e-mail do responsável do aluno'
+									required />
+							</div>
+						</div>
+						<div className="col-12 col-md-6">
+							<div className="form-group">
+								<label for="password_resp">Senha do Responsável:</label>
+								<input type='password' className='form-control'
+									name='password_resp'
+									value={this.state.aluno.password_resp}
+									onChange={e => this.updateField(e)}
+									placeholder='Crie a senha do responsável'
+									required />
+							</div>
+						</div>
 					</div>
 
 					<hr />
@@ -291,6 +342,9 @@ export default class Aluno extends Component {
 						<th>Endereço</th>
 						<th>Telefone</th>
 						<th>Data de Nascimento</th>
+						<th>Nome do Responsável</th>
+						<th>Email do Responsável</th>
+						<th>Senha do Responsável</th>
 						<th>Alterar</th>
 					</tr>
 				</thead>
@@ -312,6 +366,9 @@ export default class Aluno extends Component {
 					<td>{aluno.address}</td>
 					<td>{aluno.phone}</td>
 					<td>{aluno.birthdate}</td>
+					<td>{aluno.name_resp}</td>
+					<td>{aluno.email_resp}</td>
+					<td>{aluno.password_resp}</td>
 					<td>
 						<button className='btn btn-warning'
 							onClick={() => this.load(aluno)}>
