@@ -3,6 +3,7 @@ import Main from '../template/Main'
 import axios from 'axios'
 import CPF from 'cpf-check';
 import { compileFunction } from 'vm';
+import linguaInformation from '../../services/lingua';
 
 const headerProps = {
 	icon: 'users',
@@ -32,7 +33,8 @@ const initialState = {
 	isInvalidDate: true,
 	saved: false,
 	isEmpty: true,
-	isInvalid: true
+	isInvalid: true,
+	lingua :(window && window.lingua) || 'PT-BR'
 }
 
 export default class Aluno extends Component {
@@ -139,14 +141,14 @@ export default class Aluno extends Component {
 		this.setState({ aluno, isInvalidPhone, isInvalidCPF, isInvalidEmail, isInvalidEmail2, isInvalidDate, isEmpty, isInvalid });
 	}
 
-	renderForm() {
+	renderForm(lingua) {
 		return (
 			<form>
 				<div className="form">
 					<div className="row">
 						<div className="col-12 col-md-6">
 							<div className="form-group">
-								<label for="name">Nome:</label>
+								<label for="name">{linguaInformation[`labelname-${lingua}`]}</label>
 								<input type='text' className='form-control'
 									name='name'
 									value={this.state.aluno.name}
@@ -157,7 +159,7 @@ export default class Aluno extends Component {
 						</div>
 						<div className="col-12 col-md-6">
 							<div className="form-group">
-								<label for="surname">Sobrenome:</label>
+								<label for="surname">{linguaInformation[`labelsurname-${lingua}`]}</label>
 								<input type='text' className='form-control'
 									name='surname'
 									value={this.state.aluno.surname}
@@ -168,7 +170,7 @@ export default class Aluno extends Component {
 						</div>
 						<div className="col-12 col-md-6">
 							<div className="form-group">
-								<label>CPF:</label>
+								<label>{linguaInformation[`labelCPF-${lingua}`]}</label>
 								{
 									this.state.isInvalidCPF && (
 										<div class="alert alert-danger" role="alert">
@@ -204,7 +206,7 @@ export default class Aluno extends Component {
 						</div>
 						<div className="col-12 col-md-6">
 							<div className="form-group">
-								<label for='address'>Endereço:</label>
+								<label for='address'>{linguaInformation[`labeladdress-${lingua}`]}</label>
 								<input type="text" className='form-control'
 									name='address'
 									value={this.state.aluno.address}
@@ -215,7 +217,7 @@ export default class Aluno extends Component {
 						</div>
 						<div className="col-12 col-md-6">
 							<div className="form-group">
-								<label>Telefone:</label>
+								<label>{linguaInformation[`labelphone-${lingua}`]}</label>
 								{
 									this.state.isInvalidPhone && (
 										<div class="alert alert-danger" role="alert">
@@ -233,7 +235,7 @@ export default class Aluno extends Component {
 						</div>
 						<div className="col-12 col-md-6">
 							<div className="form-group">
-								<label for='birthdate'>Data de nascimento:</label>
+								<label for='birthdate'>{linguaInformation[`labelbirthdadte-${lingua}`]}</label>
 								{
 									this.state.isInvalidDate && (
 										<div class="alert alert-danger" role="alert">
@@ -250,7 +252,7 @@ export default class Aluno extends Component {
 						</div>
 						<div className="col-12 col-md-6">
 							<div className="form-group">
-								<label for="name_resp">Nome do Responsável:</label>
+								<label for="name_resp">{linguaInformation[`labelguardianname-${lingua}`]}</label>
 								<input type='text' className='form-control'
 									name='name_resp'
 									value={this.state.aluno.name_resp}
@@ -261,7 +263,7 @@ export default class Aluno extends Component {
 						</div>
 						<div className="col-12 col-md-6">
 							<div className="form-group">
-								<label>E-mail (Responsável):</label>
+								<label>{linguaInformation[`labelguardianemail-${lingua}`]}</label>
 								{
 									this.state.isInvalidEmail2 && (
 										<div class="alert alert-danger" role="alert">
@@ -279,7 +281,7 @@ export default class Aluno extends Component {
 						</div>
 						<div className="col-12 col-md-6">
 							<div className="form-group">
-								<label for="password_resp">Senha do Responsável:</label>
+								<label for="password_resp">{linguaInformation[`labelguardianpass-${lingua}`]}</label>
 								<input type='password' className='form-control'
 									name='password_resp'
 									value={this.state.aluno.password_resp}
@@ -385,9 +387,10 @@ export default class Aluno extends Component {
 	}
 
 	render() {
+		const {lingua} = this.state;
 		return (
 			<Main {...headerProps}>
-				{this.renderForm()}
+				{this.renderForm(lingua)}
 				{this.renderTable()}
 			</Main>
 		)

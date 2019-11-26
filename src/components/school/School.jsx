@@ -94,7 +94,7 @@ export default class School extends Component {
           <div className="row">
             <div className="col-12 col-md-6">
               <div className="form-group">
-                <label for="name">{linguaInformation[`school-labelname-${lingua}`]}</label>
+                <label for="name">{linguaInformation[`labelname-${lingua}`]}</label>
                 <input type='text' className='form-control'
                   name='name'
                   value={this.state.school.name}
@@ -105,7 +105,7 @@ export default class School extends Component {
             </div>
             <div className="col-12 col-md-6">
               <div className="form-group">
-                <label for='endereco'>{linguaInformation[`school-labeladdress-${lingua}`]}</label>
+                <label for='endereco'>{linguaInformation[`labeladdress-${lingua}`]}</label>
                 <input type="text" className='form-control'
                   name='endereco'
                   value={this.state.school.endereco}
@@ -116,7 +116,7 @@ export default class School extends Component {
             </div>
             <div className="col-12 col-md-6">
               <div className="form-group">
-                <label>{linguaInformation[`school-labeltelephone-${lingua}`]}</label>
+                <label>{linguaInformation[`labeltelephone-${lingua}`]}</label>
                 {
                   this.state.isInvalidPhone && (
                     <div class="alert alert-danger" role="alert">
