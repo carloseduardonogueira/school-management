@@ -3,6 +3,7 @@ import { Prompt } from 'react-router';
 
 import Main from '../template/Main';
 import axios from 'axios';
+import linguaInformation from '../../services/lingua';
 
 const headerProps = {
   icon: 'university',
@@ -18,6 +19,7 @@ const initialState = {
   isInvalid: true,
   isInvalidPhone: true,
   saved: false,
+  lingua :(window && window.lingua) || 'EN'
 };
 
 export default class School extends Component {
@@ -80,40 +82,40 @@ export default class School extends Component {
     this.setState({ school, isInvalid, isInvalidPhone });
   }
 
-  renderForm() {
+  renderForm(lingua) {
     return (
       <form>
         <div className="form">
           <div className="row">
             <div className="col-12 col-md-6">
               <div className="form-group">
-                <label for="name">Nome:</label>
+                <label for="name">{linguaInformation[`school-labelname-${lingua}`]}</label>
                 <input type='text' className='form-control'
                   name='name'
                   value={this.state.school.name}
                   onChange={e => this.updateField(e)}
-                  placeholder='Digite o nome da escola'
+                  placeholder={linguaInformation[`school-name-${lingua}`]}
                   required />
               </div>
             </div>
             <div className="col-12 col-md-6">
               <div className="form-group">
-                <label for='endereco'>Endereço:</label>
+                <label for='endereco'>{linguaInformation[`school-labeladdress-${lingua}`]}</label>
                 <input type="text" className='form-control'
                   name='endereco'
                   value={this.state.school.endereco}
                   onChange={e => this.updateField(e)}
-                  placeholder="Digite o endereço da escola"
+                  placeholder={linguaInformation[`school-address-${lingua}`]}
                   required />
               </div>
             </div>
             <div className="col-12 col-md-6">
               <div className="form-group">
-                <label>Telefone:</label>
+                <label>{linguaInformation[`school-labeltelephone-${lingua}`]}</label>
                 {
                   this.state.isInvalidPhone && (
                     <div class="alert alert-danger" role="alert">
-                      Você deve preencher os dados de telefone no padrão: '+55 (55) 23321-5454'
+                      {linguaInformation[`telephone-message-${lingua}`]}
                     </div>
                   )
                 }
@@ -121,7 +123,7 @@ export default class School extends Component {
                   name='fone'
                   value={this.state.school.fone}
                   onChange={e => this.updateField(e)}
-                  placeholder='Digite o telefone da escola'
+                  placeholder= {linguaInformation[`school-telephone-${lingua}`]}
                   required
                 />
               </div>
@@ -225,7 +227,7 @@ export default class School extends Component {
   render() {
     const { school } = this.state;
     const tenhoDados = school.name === '' || school.endereco === '' || school.diretor === '' || school.fone === '';
-
+    const { lingua } = this.state;
     return (
       <React.Fragment>
         <Prompt
@@ -233,7 +235,7 @@ export default class School extends Component {
           message='Você irá perder seus dados, tem certeza que deseja sair?'
         />
         <Main {...headerProps}>
-          {this.renderForm()}
+          {this.renderForm(lingua)}
           {this.renderTable()}
         </Main>
       </React.Fragment>

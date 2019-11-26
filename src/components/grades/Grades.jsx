@@ -63,11 +63,8 @@ export default class Grades extends Component {
   updateField(event) {
     const grades = { ...this.state.grades }
     const regras = ["0", "0,5", "1", "1,5", "2", "2,5", "3", "3,5","4", "4,5", "5", "5,5", "6", "6,5", "7", "7,5", "8", "8,5", "9", "9,5", "10"]
-
     grades[event.target.name] = event.target.value;
-
     let isInvalid = false;
-
     for (let key in grades) {
 			if (regras.indexOf(grades[key]) < 0 && key !== "materia_id") {
 				isInvalid = true;
@@ -116,7 +113,7 @@ export default class Grades extends Component {
           <td>
             <input type='text' className='form-control'
               name={aluno}
-              value={this.state.grades[aluno]}
+              //value={this.state.grades[aluno]}
               placeholder='Digite a nota do aluno'
               onChange={e => this.updateField(e)}
               required />
