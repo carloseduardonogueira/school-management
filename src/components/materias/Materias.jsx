@@ -29,6 +29,8 @@ export default class Materia extends Component {
   state = { ...InitialState }
 
   componentWillMount() {
+    window.onbeforeunload = undefined
+
     axios(baseUrl).then(materia => {
       axios("http://localhost:3001/professores").then(professores => {
         this.setState({ professores: professores.data, list: materia.data })
@@ -39,10 +41,6 @@ export default class Materia extends Component {
         this.setState({ alunos: alunos.data, list: materia.data })
       });
     })
-  }
-
-  componentWillUnmount() {
-    window.onbeforeunload = undefined
   }
 
   clear() {
@@ -230,16 +228,34 @@ export default class Materia extends Component {
           <td>{materia.name}</td>
           <td>{materia.professor}</td>
           <td>
-            <button className='btn btn-warning ml-2'
-              onClick={() => this.load(materia)}>
+            <button
+              className='btn btn-warning ml-2'
+              onClick={() => this.load(materia)}
+              type="button"
+              data-toggle="tooltip"
+              data-placement="top"
+              title="Alterar"
+            >
               <i className='fa fa-pencil'></i>
             </button>
-            <button className='btn btn-danger ml-2'
-              onClick={() => this.remove(materia)}>
+            <button
+              className='btn btn-danger ml-2'
+              onClick={() => this.remove(materia)}
+              type="button"
+              data-toggle="tooltip"
+              data-placement="top"
+              title="Remover"
+            >
               <i className='fa fa-trash'></i>
             </button>
-            <button className='btn btn-info ml-2'
-              onClick={() => this.setState({ redirect: true, materia_redirect: materia })}>
+            <button
+              className='btn btn-info ml-2'
+              onClick={() => this.setState({ redirect: true, materia_redirect: materia })}
+              type="button"
+              data-toggle="tooltip"
+              data-placement="top"
+              title="Atribuir notas"
+            >
               <i className='fa fa-bar-chart'></i>
             </button>
             {this.redirect()}
@@ -251,15 +267,8 @@ export default class Materia extends Component {
 
 
   render() {
-    const { materia } = this.state;
-    const tenhoDados = materia.name === '' || materia.professor === '';
-
     return (
       <React.Fragment>
-        <Prompt
-          when={tenhoDados}
-          message='Você irá perder seus dados, tem certeza que deseja sair?'
-        />
         <Main {...headerProps}>
           {this.renderForm()}
           {this.renderTable()}
