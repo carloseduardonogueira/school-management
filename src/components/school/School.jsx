@@ -33,6 +33,11 @@ export default class School extends Component {
     });
   }
 
+  componentDidMount(){
+    const lingua = window.lingua;
+    this.setState.lingua = lingua;
+  }
+
   clear() {
     this.setState({ state: initialState });
   }
@@ -130,7 +135,7 @@ export default class School extends Component {
             </div>
             <div className="col-12 col-md-6">
               <div className="form-group">
-                <label>Diretor:</label>
+                <label>{linguaInformation[`school-labelprincipal-${lingua}`]}</label>
                 <select type='select' className='form-control'
                   name='diretor'
                   value={this.state.school.diretor}
@@ -185,15 +190,15 @@ export default class School extends Component {
     )
   }
 
-  renderTable() {
+  renderTable(lingua) {
     return (
       <table className="table mt-4">
         <thead>
           <tr>
-            <th>Nome</th>
-            <th>Endereço</th>
-            <th>Telefone</th>
-            <th>Diretor</th>
+            <th>{linguaInformation[`table-name-${lingua}`]}</th>
+            <th>{linguaInformation[`table-address-${lingua}`]}</th>
+            <th>{linguaInformation[`table-telephone-${lingua}`]}</th>
+            <th>{linguaInformation[`table-principal-${lingua}`]}</th>
           </tr>
         </thead>
         <tbody>
@@ -236,7 +241,7 @@ export default class School extends Component {
         />
         <Main {...headerProps}>
           {this.renderForm(lingua)}
-          {this.renderTable()}
+          {this.renderTable(lingua)}
         </Main>
       </React.Fragment>
     )
