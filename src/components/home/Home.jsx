@@ -15,6 +15,10 @@ export default class Materia extends React.Component {
     this.setState({ lingua: event.target.value });
   }
 
+  componentDidMount(){
+    this.setState({ lingua: window.lingua });
+  }
+
   render() {
     const { lingua } = this.state;
 
