@@ -35,7 +35,7 @@ export default class Materia extends React.Component {
         value={this.state.lingua}
         onChange={e => this.selectLingua(e)}
       >
-        <option value='' selected disabled>Selecione a linguagem</option>
+        <option value='' selected disabled>{linguaInformation[`home-option-${lingua}`]}</option>
         <option value='PT'>PT</option>
         <option value='PT-BR'>PT-BR</option>
         <option value='EN'>EN</option>
@@ -43,7 +43,7 @@ export default class Materia extends React.Component {
 
       <hr />
       <p className="mb-0">
-        Sistema de gerenciamento escolar desenvolvido para a disciplina Gestão de Projetos B!
+        {linguaInformation[`home-content-${lingua}`]}
       </p>
     </Main>   
     )

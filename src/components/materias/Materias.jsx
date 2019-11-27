@@ -29,8 +29,6 @@ export default class Materia extends Component {
   state = { ...InitialState }
 
   componentWillMount() {
-    window.onbeforeunload = undefined
-
     axios(baseUrl).then(materia => {
       axios("http://localhost:3001/professores").then(professores => {
         this.setState({ professores: professores.data, list: materia.data })

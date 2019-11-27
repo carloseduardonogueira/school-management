@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Prompt } from 'react-router';
 
 import Main from '../template/Main';
 import axios from 'axios';
+import linguaInformation from '../../services/lingua';
 
 const headerProps = {
   icon: 'university',
@@ -18,6 +18,7 @@ const initialState = {
   isInvalid: true,
   isInvalidPhone: true,
   saved: false,
+  lingua :(window && window.lingua) || 'EN'
 };
 
 export default class School extends Component {
@@ -29,6 +30,10 @@ export default class School extends Component {
         this.setState({ diretores: diretores.data, list: escolas.data });
       });
     });
+  }
+
+  componentDidMount(){
+    this.setState({ lingua: window.lingua });
   }
 
   clear() {
@@ -80,40 +85,40 @@ export default class School extends Component {
     this.setState({ school, isInvalid, isInvalidPhone });
   }
 
-  renderForm() {
+  renderForm(lingua) {
     return (
       <form>
         <div className="form">
           <div className="row">
             <div className="col-12 col-md-6">
               <div className="form-group">
-                <label for="name">Nome:</label>
+                <label for="name">{linguaInformation[`labelname-${lingua}`]}</label>
                 <input type='text' className='form-control'
                   name='name'
                   value={this.state.school.name}
                   onChange={e => this.updateField(e)}
-                  placeholder='Digite o nome da escola'
+                  placeholder={linguaInformation[`school-name-${lingua}`]}
                   required />
               </div>
             </div>
             <div className="col-12 col-md-6">
               <div className="form-group">
-                <label for='endereco'>Endereço:</label>
+                <label for='endereco'>{linguaInformation[`labeladdress-${lingua}`]}</label>
                 <input type="text" className='form-control'
                   name='endereco'
                   value={this.state.school.endereco}
                   onChange={e => this.updateField(e)}
-                  placeholder="Digite o endereço da escola"
+                  placeholder={linguaInformation[`school-address-${lingua}`]}
                   required />
               </div>
             </div>
             <div className="col-12 col-md-6">
               <div className="form-group">
-                <label>Telefone:</label>
+                <label>{linguaInformation[`labeltelephone-${lingua}`]}</label>
                 {
                   this.state.isInvalidPhone && (
                     <div class="alert alert-danger" role="alert">
-                      Você deve preencher os dados de telefone no padrão: '+55 (55) 23321-5454'
+                      {linguaInformation[`telephone-message-${lingua}`]}
                     </div>
                   )
                 }
@@ -121,14 +126,14 @@ export default class School extends Component {
                   name='fone'
                   value={this.state.school.fone}
                   onChange={e => this.updateField(e)}
-                  placeholder='Digite o telefone da escola'
+                  placeholder= {linguaInformation[`school-telephone-${lingua}`]}
                   required
                 />
               </div>
             </div>
             <div className="col-12 col-md-6">
               <div className="form-group">
-                <label>Diretor:</label>
+                <label>{linguaInformation[`school-labelprincipal-${lingua}`]}</label>
                 <select type='select' className='form-control'
                   name='diretor'
                   value={this.state.school.diretor}
@@ -183,15 +188,15 @@ export default class School extends Component {
     )
   }
 
-  renderTable() {
+  renderTable(lingua) {
     return (
       <table className="table mt-4">
         <thead>
           <tr>
-            <th>Nome</th>
-            <th>Endereço</th>
-            <th>Telefone</th>
-            <th>Diretor</th>
+            <th>{linguaInformation[`table-name-${lingua}`]}</th>
+            <th>{linguaInformation[`table-address-${lingua}`]}</th>
+            <th>{linguaInformation[`table-telephone-${lingua}`]}</th>
+            <th>{linguaInformation[`table-principal-${lingua}`]}</th>
           </tr>
         </thead>
         <tbody>
@@ -223,18 +228,13 @@ export default class School extends Component {
   }
 
   render() {
-    const { school } = this.state;
-    const tenhoDados = school.name === '' || school.endereco === '' || school.diretor === '' || school.fone === '';
+    const { lingua } = this.state;
 
     return (
       <React.Fragment>
-        <Prompt
-          when={tenhoDados}
-          message='Você irá perder seus dados, tem certeza que deseja sair?'
-        />
         <Main {...headerProps}>
-          {this.renderForm()}
-          {this.renderTable()}
+          {this.renderForm(lingua)}
+          {this.renderTable(lingua)}
         </Main>
       </React.Fragment>
     )
