@@ -24,24 +24,26 @@ export default class Grades extends Component {
 
   componentDidMount(){
     const materia = this.props.materia
-
     const grades = {}
 
-    /* axios(baseUrl).then(res => {
+    axios(baseUrl).then(res => {
       const notas = res.data.filter(r => r.materia_id === materia.id);
       for(let key in notas[0]){
         grades[key] = notas[0][key]
       }
-    }); */
+      if(notas !== {}) 
+        this.setState({isInvalid: true})
+    }); 
 
     if(Object.keys(grades).length === 0 && grades.constructor === Object){
       materia.alunos.map(aluno => {
         grades[aluno] = ""
       })
       grades["materia_id"]= materia.id
-    }
+    } 
 
     this.setState({grades}) 
+    
   }
 
   clear() {
@@ -54,10 +56,14 @@ export default class Grades extends Component {
 
   save() {
     const grades = this.state.grades
-    axios.post(baseUrl, grades)
-      .then(res => {
-        this.setState({saved: true})
-    })
+    const method = grades.id ? 'put' : 'post'
+    const url = grades.id ? `${baseUrl}/${grades.id}` : baseUrl
+
+    axios[method](url, grades).then(res => {
+      this.setState({ saved: true });
+      setTimeout(() => { this.setState({ isInvalid: true, saved: false }) }, 1000);
+      console.log(this.state.grades)
+    });
   }
 
   updateField(event) {
@@ -69,7 +75,8 @@ export default class Grades extends Component {
     let isInvalid = false;
 
     for (let key in grades) {
-			if (regras.indexOf(grades[key]) < 0 && key !== "materia_id") {
+      console.log(key)
+			if (regras.indexOf(grades[key]) < 0 && key !== "materia_id" && key !== "id") {
 				isInvalid = true;
       };
     }

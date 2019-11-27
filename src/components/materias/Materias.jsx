@@ -34,9 +34,7 @@ export default class Materia extends Component {
     axios(baseUrl).then(materia => {
       axios("http://localhost:3001/professores").then(professores => {
         this.setState({ professores: professores.data, list: materia.data })
-      });
-    })
-    axios(baseUrl).then(materia => {
+      });    
       axios("http://localhost:3001/alunos").then(alunos => {
         this.setState({ alunos: alunos.data, list: materia.data })
       });
@@ -201,6 +199,12 @@ export default class Materia extends Component {
         const list = this.state.list.filter(m => m !== materia)
         this.setState({ list })
       })
+      axios('http://localhost:3001/notas').then(res => {
+        const notas = res.data.filter(r => r.materia_id === materia.id);
+        notas.map(nota => {
+          axios.delete(`http://localhost:3001/notas/${nota.id}`)
+        })
+      }); 
     }
   }
 
@@ -287,9 +291,11 @@ export default class Materia extends Component {
 
   renderOptionsal() {
     return this.state.alunos.map(alunos => {
-      return (
-        <option>{alunos.name}</option>
-      )
+      if(alunos.name !== ""){
+        return (
+          <option>{alunos.name}</option>
+        )
+      }
     })
   }
 }
