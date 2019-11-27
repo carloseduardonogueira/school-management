@@ -337,14 +337,10 @@ export default class Aluno extends Component {
 					<tr>
 						<th>Nome</th>
 						<th>Sobrenome</th>
-						<th>CPF</th>
 						<th>E-mail</th>
-						<th>Endereço</th>
 						<th>Telefone</th>
 						<th>Data de Nascimento</th>
 						<th>Nome do Responsável</th>
-						<th>Email do Responsável</th>
-						<th>Senha do Responsável</th>
 						<th>Alterar</th>
 					</tr>
 				</thead>
@@ -361,14 +357,10 @@ export default class Aluno extends Component {
 				<tr key={aluno.id}>
 					<td>{aluno.name}</td>
 					<td>{aluno.surname}</td>
-					<td>{aluno.cpf}</td>
 					<td>{aluno.email}</td>
-					<td>{aluno.address}</td>
 					<td>{aluno.phone}</td>
 					<td>{aluno.birthdate}</td>
 					<td>{aluno.name_resp}</td>
-					<td>{aluno.email_resp}</td>
-					<td>{aluno.password_resp}</td>
 					<td>
 						<button className='btn btn-warning'
 							onClick={() => this.load(aluno)}>
