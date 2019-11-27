@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Prompt } from 'react-router';
 
 import Main from '../template/Main';
 import axios from 'axios';
@@ -34,8 +33,7 @@ export default class School extends Component {
   }
 
   componentDidMount(){
-    const lingua = window.lingua;
-    this.setState.lingua = lingua;
+    this.setState({ lingua: window.lingua });
   }
 
   clear() {
@@ -230,15 +228,10 @@ export default class School extends Component {
   }
 
   render() {
-    const { school } = this.state;
-    const tenhoDados = school.name === '' || school.endereco === '' || school.diretor === '' || school.fone === '';
     const { lingua } = this.state;
+
     return (
       <React.Fragment>
-        <Prompt
-          when={tenhoDados}
-          message='Você irá perder seus dados, tem certeza que deseja sair?'
-        />
         <Main {...headerProps}>
           {this.renderForm(lingua)}
           {this.renderTable(lingua)}
