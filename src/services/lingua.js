@@ -30,18 +30,18 @@ lingua['labeladdress-EN'] = "Address:"
 lingua['labelphone-PT'] = "Telefone:"
 lingua['labelphone-PT-BR'] = "Telefone:"
 lingua['labelphone-EN'] = "Telephone:"
-lingua['labelphonebus-PT'] = "Telefone (empresa):"
-lingua['labelphonebus-PT-BR'] = "Telefone (empresa):"
-lingua['labelphonebus-EN'] = "Business telephone:"
-lingua['labelstudents-PT'] = "Alunos:"
-lingua['labelstudents-PT-BR'] = "Alunos:"
-lingua['labelstudents-EN'] = "Students:"
-lingua['labelocurrence-PT'] = "Ocorrência:"
-lingua['labelocurrence-PT-BR'] = "Ocorrência:"
-lingua['labelocurrence-EN'] = "Occurrence:"
-lingua['labelphoto-PT'] = "Enviar foto da ocorrência:"
-lingua['labelphoto-PT-BR'] = "Subir foto da ocorrência:"
-lingua['labelphoto-EN'] = "Upload photo of the occurrence:"
+lingua['labelTypeBusiness-PT'] = "Empresa"
+lingua['labelTypeBusiness-PT-BR'] = "Empresa"
+lingua['labelTypeBusiness-EN'] = "Business"
+lingua['labelTypePersonal-PT'] = "Pessoal"
+lingua['labelTypePersonal-PT-BR'] = "Pessoal"
+lingua['labelTypePersonal-EN'] = "Personal"
+lingua['labelstudents-PT'] = "Alunos"
+lingua['labelstudents-PT-BR'] = "Alunos"
+lingua['labelstudents-EN'] = "Students"
+lingua['labelstudent-PT'] = "Aluno"
+lingua['labelstudent-PT-BR'] = "Aluno"
+lingua['labelstudent-EN'] = "Student"
 lingua['school-labelprincipal-PT'] = "Director:"
 lingua['school-labelprincipal-PT-BR'] = "Diretor:"
 lingua['school-labelprincipal-EN'] = "Principal:"
@@ -237,5 +237,71 @@ lingua['teacher-title-EN'] = "Teachers"
 lingua['teacher-subtitle-PT'] = "Registrar novo professor"
 lingua['teacher-subtitle-PT-BR'] = "Cadastrar novo professor"
 lingua['teacher-subtitle-EN'] = "Register new teacher"
+
+lingua['labelteacher-PT'] = "Professor"
+lingua['labelteacher-PT-BR'] = "Professor"
+lingua['labelteacher-EN'] = "Teacher"
+
+
+// Administrador
+lingua['administrator-title-PT'] = "Administradores"
+lingua['administrator-title-PT-BR'] = "Administradores"
+lingua['administrator-title-EN'] = "Administrator"
+lingua['administrator-subtitle-PT'] = "Registrar novo adm"
+lingua['administrator-subtitle-PT-BR'] = "Cadastrar novo adm"
+lingua['administrator-subtitle-EN'] = "Register new administrator"
+
+// Materias
+lingua['subjects-title-PT'] = "Matérias"
+lingua['subjects-title-PT-BR'] = "Matérias"
+lingua['subjects-title-EN'] = "Subjects"
+lingua['subjects-subtitle-PT'] = "Registrar nova matéria"
+lingua['subjects-subtitle-PT-BR'] = "Cadastrar nova matéria"
+lingua['subjects-subtitle-EN'] = "Register new subject"
+
+lingua['holderSubject-PT'] = "Inglês"
+lingua['holderSubject-PT-BR'] = "Inglês"
+lingua['holderSubject-EN'] = "Math"
+
+lingua['selectChooseTeacher-PT'] = "Selecione um professor"
+lingua['selectChooseTeacher-PT-BR'] = "Selecione um professor"
+lingua['selectChooseTeacher-EN'] = "Choose a teacher"
+
+lingua['selectChooseStudents-PT'] = "Selecione os alunos dessa materia"
+lingua['selectChooseStudents-PT-BR'] = "Selecione os alunos dessa materia"
+lingua['selectChooseStudents-EN'] = "Choose all students"
+
+lingua['pressCtrlToChose-PT'] = "Pressione CTRL para selecionar mais de um aluno" 
+lingua['pressCtrlToChose-PT-BR'] = "Pressione CTRL para selecionar mais de um aluno"  
+lingua['pressCtrlToChose-EN'] = "Press CTRL to select more than one student" 
+
+// Ocorrencias
+lingua['occurrences-title-PT'] = "Ocorrências"
+lingua['occurrences-title-PT-BR'] = "Ocorrências"
+lingua['occurrences-title-EN'] = "Occurrence"
+lingua['occurrences-subtitle-PT'] = "Registrar nova ocorrência"
+lingua['occurrences-subtitle-PT-BR'] = "Cadastrar nova ocorrência"
+lingua['occurrences-subtitle-EN'] = "Register new occurrence"
+
+lingua['holderOccurrenceDesc-PT'] = "Carlos se machucou"
+lingua['holderOccurrenceDesc-PT-BR'] = "Carlos se machucou"
+lingua['holderOccurrenceDesc-EN'] = "Carl got hurt"
+
+lingua['labelOccurrence-PT'] = "Ocorrência"
+lingua['labelOccurrence-PT-BR'] = "Ocorrência"
+lingua['labelOccurrence-EN'] = "Occurrence"
+lingua['labelphoto-PT'] = "Enviar foto da ocorrência"
+lingua['labelphoto-PT-BR'] = "Subir foto da ocorrência"
+lingua['labelphoto-EN'] = "Upload photo of the occurrence"
+
+lingua['selectChoseStudent-PT'] = "Selecione um aluno"
+lingua['selectChoseStudent-PT-BR'] = "Selecione um aluno"
+lingua['selectChoseStudent-EN'] = "Chose a student"
+
+lingua['table-image-PT'] = "Foto"
+lingua['table-image-PT-BR'] = "Foto"
+lingua['table-image-EN'] = "Image"
+
+
 
 export default lingua;

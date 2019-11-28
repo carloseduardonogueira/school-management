@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Main from '../template/Main';
 import axios from 'axios';
+import linguaInformation from '../../services/lingua';
+
 
 const headerProps = {
   icon: 'users',
@@ -16,12 +18,16 @@ const InitialState = {
   isInvalid: false,
   saved: false,
   isEmpty: true,
-  path: ''
+  path: '',
+  lingua :(window && window.lingua) || 'PT-BR'
 }
 
 export default class Ocorrência extends Component {
-
   state = { ...InitialState }
+
+  componentDidMount(){
+    this.setState({ lingua: window.lingua });
+  }
 
   componentWillMount() {
     axios(baseUrl).then(ocorrencia => {
@@ -118,22 +124,24 @@ export default class Ocorrência extends Component {
     })
   }
 
-  renderForm() {
+  renderForm(lingua) {
     return (
       <form>
         <div className="form">
           <div className="row">
             <div className="col-12 col-md-6">
               <div className="form-group">
-                <label for="name">Ocorrência:</label>
-                <input type="text" className="form-control" name="name" placeholder="Digite a ocorrência" onChange={e => this.updateField(e)} value={this.state.ocorrencia.name} required />
+                <label for="name">{linguaInformation[`labelOccurrence-${lingua}`]}</label>
+                <input type="text" className="form-control" name="name" 
+                        placeholder={linguaInformation[`holderOccurrenceDesc-${lingua}`]}
+                        onChange={e => this.updateField(e)} value={this.state.ocorrencia.name} required />
               </div>
             </div>
             <div className="col-12 col-md-6">
               <div className="form-group">
-                <label for="aluno">Aluno</label>
+                <label for="aluno">{linguaInformation[`labelstudent-${lingua}`]}</label>
                 <select type="select" className="form-control" name="aluno" onChange={e => this.updateField(e)}>
-                  <option selected disabled>Selecione o aluno</option>
+                  <option selected disabled>{linguaInformation[`selectChoseStudent-${lingua}`]}</option>
                   {this.renderOptions()}
                 </select>
               </div>
@@ -143,7 +151,7 @@ export default class Ocorrência extends Component {
           <div className="row">
             <div className="col-12 col-md-6">
               <div className="from-group">
-                <label for="foto"> Subir foto da Ocorrência:</label>
+                <label for="foto"> {linguaInformation[`labelphoto-${lingua}`]}:</label>
                 <input type="file" name="foto" accept="image/*" onChange={e => this.fileSelect(e)} />
                 <img id="imagem" width="100" />
               </div>
@@ -157,21 +165,21 @@ export default class Ocorrência extends Component {
                 onClick={e => this.save(e)}
                 disabled={this.state.isEmpty}
               >
-                Salvar
+                {linguaInformation[`buttonsave-${lingua}`]}
               </button>
 
               <button
                 className="btn btn-secondary ml-2"
                 onClick={e => this.clear(e)}
               >
-                Cancelar
+                {linguaInformation[`buttoncancel-${lingua}`]}
               </button>
             </div>
             <div className="col-12 d-flex justify-content-end">
               {
                 this.state.isEmpty && (
                   <div class="alert alert-danger" role="alert">
-                    Você deve preencher os dados!
+										{linguaInformation[`save-message-${lingua}`]}
                   </div>
                 )
               }
@@ -180,7 +188,7 @@ export default class Ocorrência extends Component {
               {
                 this.state.saved && (
                   <div class="alert alert-success" role="alert">
-                    Ocorrência inserida com sucesso!
+										  {linguaInformation[`save-success-${lingua}`]}
                   </div>
                 )
               }
@@ -191,15 +199,15 @@ export default class Ocorrência extends Component {
     )
   }
 
-  renderTable() {
+  renderTable(lingua) {
     return (
       <table className="table mt-4">
         <thead>
           <tr>
-            <th>Ocorrência</th>
-            <th>Aluno</th>
-            <th>Foto</th>
-            <th>Alterar/Excluir</th>
+            <th>{linguaInformation[`labelOccurrence-${lingua}`]}</th>
+            <th>{linguaInformation[`labelstudent-${lingua}`]}</th>
+            <th>{linguaInformation[`table-image-${lingua}`]}</th>
+            <th>{linguaInformation[`table-alter-${lingua}`]}/{linguaInformation[`table-remove-${lingua}`]}</th>
           </tr>
         </thead>
         <tbody>
@@ -210,10 +218,15 @@ export default class Ocorrência extends Component {
   }
 
   render() {
+    const { lingua } = this.state;
+
+		headerProps.title =  linguaInformation['occurrences-title-' + lingua]
+    headerProps.subtitle =  linguaInformation['occurrences-subtitle-' + lingua]
+    
     return (
       <Main {...headerProps}>
-        {this.renderForm()}
-        {this.renderTable()}
+        {this.renderForm(lingua)}
+        {this.renderTable(lingua)}
       </Main>
     )
   }

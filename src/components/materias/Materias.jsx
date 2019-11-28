@@ -5,6 +5,7 @@ import Main from '../template/Main';
 import axios from 'axios';
 
 import { Redirect } from "react-router-dom";
+import linguaInformation from '../../services/lingua';
 
 const headerProps = {
   icon: 'book',
@@ -23,10 +24,15 @@ const InitialState = {
   isEmpty: true,
   redirect: false,
   materia_redirect: {},
+  lingua :(window && window.lingua) || 'PT-BR'
 }
 
 export default class Materia extends Component {
   state = { ...InitialState }
+
+  componentDidMount(){
+    this.setState({ lingua: window.lingua });
+  }
 
   componentWillMount() {
     axios(baseUrl).then(materia => {
@@ -95,42 +101,43 @@ export default class Materia extends Component {
     console.log(materia[event.target.name]);
   }
 
-
-  renderForm() {
+  renderForm(lingua) {
     return (
       <form>
         <div className="form">
           <div className="row">
             <div className="col-12 col-md-6">
               <div className="form-group">
-                <label for="name">Nome:</label>
+                <label for="name">{linguaInformation[`labelname-${lingua}`]}</label>
                 <input type='text' className='form-control'
                   name='name'
                   value={this.state.materia.name}
                   onChange={e => this.updateField(e)}
-                  placeholder='Digite o nome da matéria'
+                  placeholder={linguaInformation[`holderSubject-${lingua}`]}
                   required />
               </div>
             </div>
             <div className="col-12 col-md-6">
               <div className="form-group">
-                <label>Professor</label>
+                <label>{linguaInformation[`labelteacher-${lingua}`]}</label>
                 <select type='select' className='form-control'
                   name='professor'
                   value={this.state.materia.professor}
                   onChange={e => this.updateField(e)}>
-                  <option value='' selected disabled>Selecione o Professor</option>
+                  <option value='' selected disabled>{linguaInformation[`selectChooseTeacher-${lingua}`]}</option>
                   {this.renderOptions()}
                 </select>
               </div>
             </div>
             <div className="col-12 col-md-12">
               <div className="form-group">
-                <label>Alunos</label>
+                <label>{linguaInformation[`labelstudents-${lingua}`]}</label>
                 <select multiple className="form-control"
                   name="alunos"  //criar função apenas na saida
                   onChange={e => this.updateAlunos(e)}>
-                  <option value='' selected disabled>Selecione os alunos (Pressione Ctrl para selecionar mais de um)</option>
+                  <option value='' selected disabled>
+                    {linguaInformation[`selectChooseStudents-${lingua}`]} ({linguaInformation[`pressCtrlToChose-${lingua}`]})
+                  </option>
                   {this.renderOptionsal()}
                 </select>
               </div>
@@ -145,21 +152,21 @@ export default class Materia extends Component {
                 onClick={e => this.save(e)}
                 disabled={this.state.isEmpty}
               >
-                Salvar
+                {linguaInformation[`buttonsave-${lingua}`]}
               </button>
 
               <button
                 className="btn btn-secondary ml-2"
                 onClick={e => this.clear(e)}
               >
-                Cancelar
+                {linguaInformation[`buttoncancel-${lingua}`]}
               </button>
             </div>
             <div className="col-12 d-flex justify-content-end">
               {
                 this.state.isEmpty && (
                   <div class="alert alert-danger" role="alert">
-                    Você deve preencher os dados!
+										{linguaInformation[`save-message-${lingua}`]}
                   </div>
                 )
               }
@@ -168,7 +175,7 @@ export default class Materia extends Component {
               {
                 this.state.saved && (
                   <div class="alert alert-success" role="alert">
-                    Matéria inserida com sucesso!
+										  {linguaInformation[`save-success-${lingua}`]}
                   </div>
                 )
               }
@@ -206,14 +213,14 @@ export default class Materia extends Component {
     }
   }
 
-  renderTable() {
+  renderTable(lingua) {
     return (
       <table className="table mt-4">
         <thead>
           <tr>
-            <th>Nome</th>
-            <th>Professor</th>
-            <th>Alterar/Excluir/Notas</th>
+            <th>{linguaInformation[`labelname-${lingua}`]}</th>
+            <th>{linguaInformation[`labelteacher-${lingua}`]}</th>
+            <th>{linguaInformation[`table-alter-${lingua}`]}/{linguaInformation[`table-remove-${lingua}`]}/{linguaInformation[`nav-grades-${lingua}`]}</th>
           </tr>
         </thead>
         <tbody>
@@ -269,11 +276,16 @@ export default class Materia extends Component {
 
 
   render() {
+    const { lingua } = this.state;
+
+		headerProps.title =  linguaInformation['subjects-title-' + lingua]
+    headerProps.subtitle =  linguaInformation['subjects-subtitle-' + lingua]
+
     return (
       <React.Fragment>
         <Main {...headerProps}>
-          {this.renderForm()}
-          {this.renderTable()}
+          {this.renderForm(lingua)}
+          {this.renderTable(lingua)}
         </Main>
       </React.Fragment>
     )
