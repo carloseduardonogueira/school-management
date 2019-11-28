@@ -367,14 +367,10 @@ export default class Aluno extends Component {
 				<tr key={aluno.id}>
 					<td>{aluno.name}</td>
 					<td>{aluno.surname}</td>
-					<td>{aluno.cpf}</td>
 					<td>{aluno.email}</td>
-					<td>{aluno.address}</td>
 					<td>{aluno.phone}</td>
 					<td>{aluno.birthdate}</td>
 					<td>{aluno.name_resp}</td>
-					<td>{aluno.email_resp}</td>
-					<td>{aluno.password_resp}</td>
 					<td>
 						<button className='btn btn-warning'
 							onClick={() => this.load(aluno)}>
