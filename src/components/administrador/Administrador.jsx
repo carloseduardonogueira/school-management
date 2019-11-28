@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Main from '../template/Main';
 import axios from 'axios';
 import CPF from 'cpf-check';
+import linguaInformation from '../../services/lingua';
 
 const headerProps = {
   icon: 'users',
@@ -20,7 +21,8 @@ const initialState = {
   isInvalidPhone: true,
   isInvalidPhone2: true,
   isInvalidCPF: true,
-  isInvalid: true
+  isInvalid: true,
+  lingua :(window && window.lingua) || 'PT-BR'
 }
 
 export default class Administrador extends Component {
@@ -31,6 +33,10 @@ export default class Administrador extends Component {
       .then(res => {
         this.setState({ list: res.data })
       });
+  }
+
+  componentDidMount(){
+    this.setState({ lingua: window.lingua });
   }
 
   clear() {
@@ -98,7 +104,7 @@ export default class Administrador extends Component {
     this.setState({ Administrador, isInvalidPhone, isInvalidPhone2, isInvalidCPF, isInvalidEmail, isEmpty, isInvalid });
   }
 
-  renderForm() {
+  renderForm(lingua) {
     return (
       <form>
         <div className="form">
@@ -283,9 +289,11 @@ export default class Administrador extends Component {
   }
 
   render() {
+    const { lingua } = this.state;
+
     return (
       <Main {...headerProps}>
-        {this.renderForm()}
+        {this.renderForm(lingua)}
         {this.renderTable()}
       </Main>
     )
