@@ -45,9 +45,6 @@ export default class Nav extends Component {
 						<Link to="/ocorrencias">
 							<i class = "fa fa-users"></i> {linguaInformation[`nav-occurences-${lingua}`]}
 						</Link>
-						<Link to="/notas">
-							<i class = "fa fa-star"></i> {linguaInformation[`nav-grades-${lingua}`]} 
-						</Link>
 				</nav>
 			</aside>
     )
