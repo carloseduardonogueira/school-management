@@ -147,6 +147,13 @@ lingua['save-success-PT-BR'] = "Inserção feita com sucesso!"
 lingua['save-success-EN'] = "Successlly register"
 
 // Aluno
+lingua['student-title-PT'] = "Alunos"
+lingua['student-title-PT-BR'] = "Alunos"
+lingua['student-title-EN'] = "Students"
+lingua['student-subtitle-PT'] = "Registrar novo aluno"
+lingua['student-subtitle-PT-BR'] = "Cadastrar novo aluno"
+lingua['student-subtitle-EN'] = "Register new student"
+
 lingua['holderStudentName-PT'] = "Digite o nome do aluno"
 lingua['holderStudentName-PT-BR'] = "Digite o nome do aluno"
 lingua['holderStudentName-EN'] = "Type the student name"
@@ -188,36 +195,36 @@ lingua['labelguardianpass-EN'] = "Legal guardian's password"
 
 // Nav
 
-lingua['nav-school-PT']       = "Escolas"
-lingua['nav-school-PT-BR']    = "Escolas"
-lingua['nav-school-EN']       = "Schools"
-lingua['nav-students-PT']     = "Alunos"
+lingua['nav-school-PT'] = "Escolas"
+lingua['nav-school-PT-BR'] = "Escolas"
+lingua['nav-school-EN'] = "Schools"
+lingua['nav-students-PT'] = "Alunos"
 lingua['nav-students-PT-BR']  = "Alunos"
-lingua['nav-students-EN']     = "Students"
+lingua['nav-students-EN'] = "Students"
 
-lingua['nav-directors-PT']    = "Diretores"
+lingua['nav-directors-PT'] = "Diretores"
 lingua['nav-directors-PT-BR'] = "Diretores"
-lingua['nav-directors-EN'] 		= "Directors"
+lingua['nav-directors-EN'] = "Directors"
 
-lingua['nav-teachers-PT']   = "Professores"
+lingua['nav-teachers-PT'] = "Professores"
 lingua['nav-teachers-PT-BR']= "Professores"
-lingua['nav-teachers-EN'] 	= "Teachers"
+lingua['nav-teachers-EN'] = "Teachers"
 
-lingua['nav-administrators-PT']    = "Administradores"
+lingua['nav-administrators-PT'] = "Administradores"
 lingua['nav-administrators-PT-BR'] = "Administradores"
-lingua['nav-administrators-EN'] 		= "Administrators"
+lingua['nav-administrators-EN'] = "Administrators"
 
-lingua['nav-subjects-PT']    = "Matérias"
+lingua['nav-subjects-PT'] = "Matérias"
 lingua['nav-subjects-PT-BR'] = "Matérias"
-lingua['nav-subjects-EN'] 		= "School subjects"
+lingua['nav-subjects-EN'] = "School subjects"
 
-lingua['nav-occurences-PT']    = "Ocorrências"
+lingua['nav-occurences-PT'] = "Ocorrências"
 lingua['nav-occurences-PT-BR'] = "Ocorrências"
-lingua['nav-occurences-EN'] 		= "Occurences"
+lingua['nav-occurences-EN'] = "Occurences"
 
-lingua['nav-grades-PT']    = "Notas"
+lingua['nav-grades-PT'] = "Notas"
 lingua['nav-grades-PT-BR'] = "Notas"
-lingua['nav-grades-EN'] 		= "Grades"
+lingua['nav-grades-EN'] = "Grades"
 
 
 export default lingua;

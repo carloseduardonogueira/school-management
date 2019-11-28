@@ -26,7 +26,7 @@ export default class Materia extends React.Component {
       <Main
         icon="home"
         title="Home"
-        subtitle="Sistema de Gestão Escolar"
+        subtitle={linguaInformation[`home-subtitle-${lingua}`]}
       >
       <div className="display-4">
         {linguaInformation[`home-title-${lingua}`]}

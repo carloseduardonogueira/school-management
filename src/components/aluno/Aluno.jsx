@@ -393,6 +393,9 @@ export default class Aluno extends Component {
 	render() {
 		const { lingua } = this.state;
 
+		headerProps.title =  linguaInformation['student-title-' + lingua]
+		headerProps.subtitle =  linguaInformation['student-subtitle-' + lingua]
+
 		return (
 			<Main {...headerProps}>
 				{this.renderForm(lingua)}
