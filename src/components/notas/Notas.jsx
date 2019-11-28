@@ -19,61 +19,15 @@ export default class Ocorrência extends Component {
 
   componentWillMount() {
     axios(baseUrl).then(notas => {
-      this.setState({ notas: notas.data })
       axios("http://localhost:3001/materias").then(materias => {
-        this.setState({ materias: materias.data })
+        this.setState({ materias: materias.data, notas: notas.data })
       });
     })
-  }
-
-  load(ocorrencia) {
-    this.setState({ ocorrencia })
-  }
-
-  getUpdatedList(ocorrencia) {
-    const list = this.state.list.filter(o => o.id != ocorrencia.id)
-    list.unshift(ocorrencia);
-    return list;
-  }
-
-  remove(ocorrencia) {
-    if (window.confirm("Deseja realmente excluir esta ocorrência?")) {
-      axios.delete(`${baseUrl}/${ocorrencia.id}`).then(res => {
-        const list = this.state.list.filter(o => o !== ocorrencia)
-        this.setState({ list })
-      })
-    }
-  }
-
-  renderOptions() {
-    return this.state.alunos.map(alunos => {
-      return (
-        <option>{alunos.name}</option>
-      )
-    })
-  }
-
-  renderRows() {
-    const { notas, materias } = this.state;
-    const finalNotas = [];
-    
-    notas.forEach(nota => {
-      const objetoKey = Object.entries(nota);
-      objetoKey.forEach(info => {
-
-      });
-    })
-
-    console.log(this.state.notas[0]);
-    return (
-        <tr>
-          <td></td>
-        </tr>
-      )
-
   }
 
   renderTable() {
+    const { notas, materias } = this.state;
+
     return (
       <table className="table mt-4">
         <thead>
@@ -85,7 +39,21 @@ export default class Ocorrência extends Component {
           </tr>
         </thead>
         <tbody>
-          {this.renderRows()}
+          {
+            notas.map(nota => {
+              const nomeAluno = Object.keys(nota)[0];
+              const infoMateria = materias.filter(materia => materia.id === nota.materia_id ? materia.name : '')[0];
+    
+              return (
+                <tr>
+                  <td>{nomeAluno}</td>
+                  <td>{infoMateria.name}</td>
+                  <td>{infoMateria.professor}</td>
+                  <td>{nota[nomeAluno]}</td>
+                </tr>
+              )
+            })
+          }
         </tbody>
       </table>
     )
