@@ -253,7 +253,7 @@ export default class Administrador extends Component {
     return list;
   }
 
-  renderTable() {
+  renderTable(lingua) {
     return (
       <table className="table mt-4">
         <thead>
@@ -294,7 +294,7 @@ export default class Administrador extends Component {
     return (
       <Main {...headerProps}>
         {this.renderForm(lingua)}
-        {this.renderTable()}
+        {this.renderTable(lingua)}
       </Main>
     )
   }
