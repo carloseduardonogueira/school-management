@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Prompt } from 'react-router';
 
 import Main from '../template/Main';
 import axios from 'axios';

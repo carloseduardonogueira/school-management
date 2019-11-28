@@ -51,7 +51,7 @@ export default class Ocorrência extends Component {
   }
 
   getUpdatedList(ocorrencia) {
-    const list = this.state.list.filter(o => o.id != ocorrencia.id)
+    const list = this.state.list.filter(o => o.id !== ocorrencia.id)
     list.unshift(ocorrencia);
     return list;
   }
@@ -61,7 +61,7 @@ export default class Ocorrência extends Component {
     let isEmpty = true;
     console.log(event.target.value);
     ocorrencia[event.target.name] = event.target.value;
-    if (ocorrencia.aluno != "" && ocorrencia.name != "")
+    if (ocorrencia.aluno !== "" && ocorrencia.name !== "")
       isEmpty = false;
     this.setState({ ocorrencia, isEmpty });
   }
@@ -72,7 +72,7 @@ export default class Ocorrência extends Component {
   }
 
   fileSelect(event) {
-    const ocorrencia = { ... this.state.ocorrencia }
+    const ocorrencia = {...this.state.ocorrencia }
     ocorrencia[event.target.name] = event.target.files[0].name
     console.log(event.target.files[0].name);
     this.setState({ ocorrencia });
