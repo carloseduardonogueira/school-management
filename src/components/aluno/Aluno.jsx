@@ -157,7 +157,7 @@ export default class Aluno extends Component {
 									name='name'
 									value={this.state.aluno.name}
 									onChange={e => this.updateField(e)}
-									placeholder={linguaInformation[`holderStudentName-${lingua}`]}
+									placeholder={linguaInformation[`holderName-${lingua}`]}
 									required />
 							</div>
 						</div>
@@ -168,13 +168,13 @@ export default class Aluno extends Component {
 									name='surname'
 									value={this.state.aluno.surname}
 									onChange={e => this.updateField(e)}
-									placeholder={linguaInformation[`holderStudentSurname-${lingua}`]}
+									placeholder={linguaInformation[`holderSurname-${lingua}`]}
 									required />
 							</div>
 						</div>
 						<div className="col-12 col-md-6">
 							<div className="form-group">
-								<label>{linguaInformation[`labelCPF-${lingua}`]}</label>
+								<label>{linguaInformation[`labelCPF-${lingua}`]}:</label>
 								{
 									this.state.isInvalidCPF && (
 										<div class="alert alert-danger" role="alert">
@@ -192,7 +192,7 @@ export default class Aluno extends Component {
 						</div>
 						<div className="col-12 col-md-6">
 							<div className="form-group">
-								<label>E-mail:</label>
+								<label>Email:</label>
 								{
 									this.state.isInvalidEmail && (
 										<div class="alert alert-danger" role="alert">
@@ -204,7 +204,7 @@ export default class Aluno extends Component {
 									name='email'
 									value={this.state.aluno.email}
 									onChange={e => this.updateField(e)}
-									placeholder={linguaInformation[`holderStudentEmail-${lingua}`]}
+									placeholder={linguaInformation[`holderEmail-${lingua}`]}
 									required />
 							</div>
 						</div>
@@ -215,7 +215,7 @@ export default class Aluno extends Component {
 									name='address'
 									value={this.state.aluno.address}
 									onChange={e => this.updateField(e)}
-									placeholder={linguaInformation[`holderStudentAddress-${lingua}`]}
+									placeholder={linguaInformation[`holderAddress-${lingua}`]}
 									required />
 							</div>
 						</div>
@@ -233,7 +233,7 @@ export default class Aluno extends Component {
 									name='phone'
 									value={this.state.aluno.phone}
 									onChange={e => this.updateField(e)}
-									placeholder={linguaInformation[`holderStudentPhone-${lingua}`]}
+									placeholder={linguaInformation[`holderPhone-${lingua}`]}
 									required />
 							</div>
 						</div>
@@ -388,6 +388,9 @@ export default class Aluno extends Component {
 
 	render() {
 		const { lingua } = this.state;
+
+		headerProps.title =  linguaInformation['student-title-' + lingua]
+		headerProps.subtitle =  linguaInformation['student-subtitle-' + lingua]
 
 		return (
 			<Main {...headerProps}>

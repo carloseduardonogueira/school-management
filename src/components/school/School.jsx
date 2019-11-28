@@ -232,6 +232,9 @@ export default class School extends Component {
   render() {
     const { lingua } = this.state;
 
+    headerProps.title =  linguaInformation['school-title-' + lingua]
+    headerProps.subtitle =  linguaInformation['school-subtitle-' + lingua]
+
     return (
       <React.Fragment>
         <Main {...headerProps}>

@@ -1,34 +1,61 @@
 import './Nav.css';
-import React from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import linguaInformation from '../../services/lingua';
 
-export default props =>
-  <aside className="menu-area">
-    <nav className="menu">
-      {/*Refatorar e criar um componente*/}
-      <Link to="/">
-        <i className="fa fa-home"></i> Home
-            </Link>
-      <Link to="/escolas">
-        <i class="fa fa-university"></i> Escolas
-            </Link>
-      <Link to="/alunos">
-        <i class="fa fa-users"></i> Alunos
-            </Link>
-      <Link to="/diretores">
-        <i class="fa fa-users"></i> Diretores
-            </Link>
-      <Link to="/professores">
-        <i class="fa fa-users"></i> Professores
-            </Link>
-      <Link to="/administradores">
-        <i class="fa fa-users"></i> Administradores
-            </Link>
-       <Link to="/materias">
-         <i class ="fa fa-book"></i> Matérias
-            </Link>
-        <Link to="/ocorrencias">
-          <i class = "fa fa-users"></i> Ocorrencias
-        </Link>
-    </nav>
-  </aside>
+
+const initialState = {
+	lingua :(window && window.lingua) || 'PT-BR'
+}
+
+export default class Nav extends Component {
+
+	state = { ...initialState }
+
+	componentDidMount(){
+    this.setState({ lingua: window.lingua });
+	}
+	
+  renderForm(lingua) {
+		return (
+			<aside className="menu-area">
+				<nav className="menu">
+					{/*Refatorar e criar um componente*/}
+					<Link to="/">
+						<i className="fa fa-home"></i> Home
+								</Link>
+					<Link to="/escolas">
+						<i class="fa fa-university"></i> {linguaInformation[`nav-school-${lingua}`]}
+								</Link>
+					<Link to="/alunos">
+						<i class="fa fa-users"></i> {linguaInformation[`nav-students-${lingua}`]}
+								</Link>
+					<Link to="/diretores">
+						<i class="fa fa-users"></i> {linguaInformation[`nav-directors-${lingua}`]}
+								</Link>
+					<Link to="/professores">
+						<i class="fa fa-users"></i> {linguaInformation[`nav-teachers-${lingua}`]}
+								</Link>
+					<Link to="/administradores">
+						<i class="fa fa-users"></i> {linguaInformation[`nav-administrators-${lingua}`]}
+								</Link>
+					<Link to="/materias">
+						<i class ="fa fa-book"></i> {linguaInformation[`nav-subjects-${lingua}`]}
+								</Link>
+						<Link to="/ocorrencias">
+							<i class = "fa fa-users"></i> {linguaInformation[`nav-occurences-${lingua}`]}
+						</Link>
+				</nav>
+			</aside>
+    )
+	}
+	
+	render() {
+		const { lingua } = this.state;
+
+		return (
+				this.renderForm(lingua)
+
+		)
+	}
+}
