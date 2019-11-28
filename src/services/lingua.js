@@ -200,7 +200,7 @@ lingua['nav-students-EN'] = "Students"
 
 lingua['nav-directors-PT'] = "Diretores"
 lingua['nav-directors-PT-BR'] = "Diretores"
-lingua['nav-directors-EN'] = "Directors"
+lingua['nav-directors-EN'] = "Principals"
 
 lingua['nav-teachers-PT'] = "Professores"
 lingua['nav-teachers-PT-BR']= "Professores"
@@ -212,7 +212,7 @@ lingua['nav-administrators-EN'] = "Administrators"
 
 lingua['nav-subjects-PT'] = "Matérias"
 lingua['nav-subjects-PT-BR'] = "Matérias"
-lingua['nav-subjects-EN'] = "School subjects"
+lingua['nav-subjects-EN'] = "School Subjects"
 
 lingua['nav-occurences-PT'] = "Ocorrências"
 lingua['nav-occurences-PT-BR'] = "Ocorrências"
