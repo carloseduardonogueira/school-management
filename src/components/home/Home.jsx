@@ -15,6 +15,10 @@ export default class Materia extends React.Component {
     this.setState({ lingua: event.target.value });
   }
 
+  componentDidMount(){
+    this.setState({ lingua: window.lingua });
+  }
+
   render() {
     const { lingua } = this.state;
 
@@ -36,9 +40,9 @@ export default class Materia extends React.Component {
         onChange={e => this.selectLingua(e)}
       >
         <option value='' selected disabled>{linguaInformation[`home-option-${lingua}`]}</option>
+        <option value='EN'>EN</option>
         <option value='PT'>PT</option>
         <option value='PT-BR'>PT-BR</option>
-        <option value='EN'>EN</option>
       </select>
 
       <hr />

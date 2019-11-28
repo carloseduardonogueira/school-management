@@ -157,7 +157,7 @@ export default class Aluno extends Component {
 									name='name'
 									value={this.state.aluno.name}
 									onChange={e => this.updateField(e)}
-									placeholder='Digite o nome do aluno'
+									placeholder={linguaInformation[`holderStudentName-${lingua}`]}
 									required />
 							</div>
 						</div>
@@ -168,7 +168,7 @@ export default class Aluno extends Component {
 									name='surname'
 									value={this.state.aluno.surname}
 									onChange={e => this.updateField(e)}
-									placeholder='Digite o sobrenome do aluno'
+									placeholder={linguaInformation[`holderStudentSurname-${lingua}`]}
 									required />
 							</div>
 						</div>
@@ -178,7 +178,7 @@ export default class Aluno extends Component {
 								{
 									this.state.isInvalidCPF && (
 										<div class="alert alert-danger" role="alert">
-											Você deve preencher os dados de CPF no padrão: '123.456.789-00'
+											{linguaInformation[`cpf-message-${lingua}`]}
                     </div>
 									)
 								}
@@ -186,7 +186,7 @@ export default class Aluno extends Component {
 									name='cpf'
 									value={this.state.aluno.cpf}
 									onChange={e => this.updateField(e)}
-									placeholder="Digite o CPF"
+									placeholder={linguaInformation[`holderCPF-${lingua}`]}
 									required />
 							</div>
 						</div>
@@ -196,7 +196,7 @@ export default class Aluno extends Component {
 								{
 									this.state.isInvalidEmail && (
 										<div class="alert alert-danger" role="alert">
-											Você deve preencher os dados de E-mail no padrão: 'teste09@puccampinas.com'
+											{linguaInformation[`email-message-${lingua}`]}
                     </div>
 									)
 								}
@@ -204,7 +204,7 @@ export default class Aluno extends Component {
 									name='email'
 									value={this.state.aluno.email}
 									onChange={e => this.updateField(e)}
-									placeholder='Digite o e-mail do aluno'
+									placeholder={linguaInformation[`holderStudentEmail-${lingua}`]}
 									required />
 							</div>
 						</div>
@@ -215,7 +215,7 @@ export default class Aluno extends Component {
 									name='address'
 									value={this.state.aluno.address}
 									onChange={e => this.updateField(e)}
-									placeholder="Digite o endereço do aluno"
+									placeholder={linguaInformation[`holderStudentAddress-${lingua}`]}
 									required />
 							</div>
 						</div>
@@ -225,15 +225,15 @@ export default class Aluno extends Component {
 								{
 									this.state.isInvalidPhone && (
 										<div class="alert alert-danger" role="alert">
-											Você deve preencher os dados de telefone no padrão: '+55 (55) 23321-5454'
-                    </div>
+											{linguaInformation[`telephone-message-${lingua}`]}
+                    					</div>
 									)
 								}
 								<input type='text' className='form-control'
 									name='phone'
 									value={this.state.aluno.phone}
 									onChange={e => this.updateField(e)}
-									placeholder='Digite o telefone do aluno'
+									placeholder={linguaInformation[`holderStudentPhone-${lingua}`]}
 									required />
 							</div>
 						</div>
@@ -243,7 +243,7 @@ export default class Aluno extends Component {
 								{
 									this.state.isInvalidDate && (
 										<div class="alert alert-danger" role="alert">
-											Você deve inserir uma data menor que a atual
+											{linguaInformation[`date-message-${lingua}`]}
                     </div>
 									)
 								}
@@ -261,7 +261,7 @@ export default class Aluno extends Component {
 									name='name_resp'
 									value={this.state.aluno.name_resp}
 									onChange={e => this.updateField(e)}
-									placeholder='Digite o nome do responsável do aluno'
+									placeholder={linguaInformation[`holderGuardianName-${lingua}`]}
 									required />
 							</div>
 						</div>
@@ -271,7 +271,7 @@ export default class Aluno extends Component {
 								{
 									this.state.isInvalidEmail2 && (
 										<div class="alert alert-danger" role="alert">
-											Você deve preencher os dados de E-mail no padrão: 'teste09@puccampinas.com'
+											{linguaInformation[`email-message-${lingua}`]}
                     </div>
 									)
 								}
@@ -279,7 +279,7 @@ export default class Aluno extends Component {
 									name='email_resp'
 									value={this.state.aluno.email_resp}
 									onChange={e => this.updateField(e)}
-									placeholder='Digite o e-mail do responsável do aluno'
+									placeholder={linguaInformation[`holderStudentGuardianEmail-${lingua}`]}
 									required />
 							</div>
 						</div>
@@ -290,7 +290,7 @@ export default class Aluno extends Component {
 									name='password_resp'
 									value={this.state.aluno.password_resp}
 									onChange={e => this.updateField(e)}
-									placeholder='Crie a senha do responsável'
+									placeholder={linguaInformation[`holderStudentGuardianPass-${lingua}`]}
 									required />
 							</div>
 						</div>
@@ -303,20 +303,20 @@ export default class Aluno extends Component {
 								className="btn btn-primary"
 								onClick={e => this.save(e)}
 								disabled={this.state.isInvalid}>
-								Salvar
+								{linguaInformation[`buttonsave-${lingua}`]}
               </button>
 
 							<button
 								className="btn btn-secondary ml-2"
 								onClick={e => this.clear(e)}>
-								Cancelar
+								{linguaInformation[`buttoncancel-${lingua}`]}
               </button>
 						</div>
 						<div className="col-12 d-flex justify-content-end">
 							{
 								this.state.isInvalid && (
 									<div class="alert alert-danger" role="alert">
-										Você deve preencher os dados!
+										{linguaInformation[`save-message-${lingua}`]}
                       </div>
 								)
 							}
@@ -325,7 +325,7 @@ export default class Aluno extends Component {
 							{
 								this.state.saved && (
 									<div class="alert alert-success" role="alert">
-										Aluno inserido com sucesso!
+										{linguaInformation[`save-success-${lingua}`]}
                         </div>
 								)
 							}
@@ -336,18 +336,22 @@ export default class Aluno extends Component {
 		)
 	}
 
-	renderTable() {
+	renderTable(lingua) {
 		return (
 			<table className="table mt-4">
 				<thead>
 					<tr>
-						<th>Nome</th>
-						<th>Sobrenome</th>
-						<th>E-mail</th>
-						<th>Telefone</th>
-						<th>Data de Nascimento</th>
-						<th>Nome do Responsável</th>
-						<th>Alterar</th>
+						<th>{linguaInformation[`table-name-${lingua}`]}</th>
+						<th>{linguaInformation[`table-surname-${lingua}`]}</th>
+						<th>{linguaInformation[`labelCPF-${lingua}`]}</th>
+						<th>Email</th>
+						<th>{linguaInformation[`table-address-${lingua}`]}</th>
+						<th>{linguaInformation[`table-telephone-${lingua}`]}</th>
+						<th>{linguaInformation[`table-birthdate-${lingua}`]}</th>
+						<th>{linguaInformation[`table-guardianName-${lingua}`]}</th>
+						<th>{linguaInformation[`table-guardianEmail-${lingua}`]}</th>
+						<th>{linguaInformation[`table-guardianPass-${lingua}`]}</th>
+						<th>{linguaInformation[`table-alter-${lingua}`]}</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -383,10 +387,12 @@ export default class Aluno extends Component {
 	}
 
 	render() {
+		const { lingua } = this.state;
+
 		return (
 			<Main {...headerProps}>
 				{this.renderForm(lingua)}
-				{this.renderTable()}
+				{this.renderTable(lingua)}
 			</Main>
 		)
 	}

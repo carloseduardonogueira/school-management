@@ -4,6 +4,8 @@ import Main from '../template/Main';
 import axios from 'axios';
 import linguaInformation from '../../services/lingua';
 
+
+
 const headerProps = {
   icon: 'university',
   title: 'Escolas',
@@ -97,7 +99,7 @@ export default class School extends Component {
                   name='name'
                   value={this.state.school.name}
                   onChange={e => this.updateField(e)}
-                  placeholder={linguaInformation[`school-name-${lingua}`]}
+                  placeholder={linguaInformation[`name-${lingua}`]}
                   required />
               </div>
             </div>
@@ -108,13 +110,13 @@ export default class School extends Component {
                   name='endereco'
                   value={this.state.school.endereco}
                   onChange={e => this.updateField(e)}
-                  placeholder={linguaInformation[`school-address-${lingua}`]}
+                  placeholder={linguaInformation[`address-${lingua}`]}
                   required />
               </div>
             </div>
             <div className="col-12 col-md-6">
               <div className="form-group">
-                <label>{linguaInformation[`labeltelephone-${lingua}`]}</label>
+                <label>{linguaInformation[`labelphone-${lingua}`]}</label>
                 {
                   this.state.isInvalidPhone && (
                     <div class="alert alert-danger" role="alert">
@@ -126,7 +128,7 @@ export default class School extends Component {
                   name='fone'
                   value={this.state.school.fone}
                   onChange={e => this.updateField(e)}
-                  placeholder= {linguaInformation[`school-telephone-${lingua}`]}
+                  placeholder= {linguaInformation[`telephone-${lingua}`]}
                   required
                 />
               </div>
@@ -139,7 +141,7 @@ export default class School extends Component {
                   value={this.state.school.diretor}
                   onChange={e => this.updateField(e)}
                   required >
-                  <option value='' selected disabled>Selecione o Diretor</option>
+                  <option value='' selected disabled>{linguaInformation[`option-${lingua}`]}</option>
                   {this.renderOptions()}
                 </select>
               </div>
@@ -154,21 +156,21 @@ export default class School extends Component {
                 onClick={e => this.save(e)}
                 disabled={this.state.isInvalid}
               >
-                Salvar
+                {linguaInformation[`buttonsave-${lingua}`]}
               </button>
 
               <button
                 className="btn btn-secondary ml-2"
                 onClick={e => this.clear(e)}
               >
-                Cancelar
+                {linguaInformation[`buttoncancel-${lingua}`]}
               </button>
             </div>
             <div className="col-12 d-flex justify-content-end">
               {
                 this.state.isInvalid && (
                   <div class="alert alert-danger" role="alert">
-                    Você deve preencher os dados!
+                    {linguaInformation[`save-message-${lingua}`]}
                   </div>
                 )
               }
@@ -177,7 +179,7 @@ export default class School extends Component {
               {
                 this.state.saved && (
                     <div class="alert alert-success" role="alert">
-                        Escola inserida com sucesso!
+                        {linguaInformation[`save-success-${lingua}`]}
                     </div>  
                 )
               }

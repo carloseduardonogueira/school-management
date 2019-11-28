@@ -10,6 +10,7 @@ const initialState = {
   login: '',
   password: '',
   isLogged: false,
+  isProfessor: true,
   loginIsInvalid: false,
   passwordIsInvalid: false,
 }
@@ -23,7 +24,14 @@ export default class Login extends React.Component {
 
     if ((login === 'fek' || login === 'test') && password === 'senha') {
       localStorage.setItem("isLogged", true);
-      this.setState({ isLogged: true });
+      localStorage.setItem("isProfessor", true);
+      this.setState({ isLogged: true, isProfessor: true });
+    }
+
+    if((login === 'carlos'  || login === 'pai') && password === 'senha') {
+      localStorage.setItem("isLogged", true);
+      localStorage.setItem("isProfessor", false);
+      this.setState({ isLogged: true, isProfessor: false });
     }
   }
 
@@ -37,7 +45,11 @@ export default class Login extends React.Component {
 
   render() {
     if (this.state.isLogged) {
-      return <Redirect to={"/home"} />
+      if (this.state.isProfessor) {
+        return <Redirect to={"/home"} />
+      }
+
+      return <Redirect to={"/notas"} />
     }
 
     return (
