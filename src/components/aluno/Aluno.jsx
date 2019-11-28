@@ -338,7 +338,8 @@ export default class Aluno extends Component {
 
 	renderTable(lingua) {
 		return (
-			<table className="table mt-4">
+			<div className="table-responsive">
+				<table className="table mt-4">
 				<thead>
 					<tr>
 						<th>{linguaInformation[`table-name-${lingua}`]}</th>
@@ -358,6 +359,7 @@ export default class Aluno extends Component {
 					{this.renderRows()}
 				</tbody>
 			</table>
+			</div>
 		)
 	}
 

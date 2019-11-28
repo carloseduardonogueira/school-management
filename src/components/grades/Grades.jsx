@@ -3,12 +3,17 @@ import Main from '../template/Main';
 import axios from 'axios';
 
 import { Redirect } from "react-router-dom";
+import linguaInformation from '../../services/lingua';
 
 const baseUrl = 'http://localhost:3001/notas';
 const initialState = {
-  isInvalid: true,
+  isInvalid: false,
   grades: {},
-  saved: false
+  saved: false, 
+  old_grades: [], 
+  return: false,
+  unchanged: true,
+  lingua:(window && window.lingua) || 'PT-BR',
 }
 
 export default class Grades extends Component {
@@ -18,7 +23,7 @@ export default class Grades extends Component {
     return ({
       icon: 'bookbar-chart',
       title: this.props && this.props.materia && this.props.materia.name || "Inválido",
-      subtitle: 'Atribuir notas'
+      subtitle: linguaInformation['grades-subtitle-' + window.lingua]
     })
   };
 
@@ -31,8 +36,8 @@ export default class Grades extends Component {
       for(let key in notas[0]){
         grades[key] = notas[0][key]
       }
-      if(notas !== {}) 
-        this.setState({isInvalid: true})
+
+      this.setState({old_grades: notas})
     }); 
 
     if(Object.keys(grades).length === 0 && grades.constructor === Object){
@@ -42,16 +47,29 @@ export default class Grades extends Component {
       grades["materia_id"]= materia.id
     } 
 
-    this.setState({grades}) 
-    
+    this.setState({grades, lingua: window.lingua })
+  }
+
+  return() {
+    if (this.state.return) {
+      return <Redirect to="/materias" />
+    }
   }
 
   clear() {
+    const old_grades = this.state.old_grades
     const grades = this.state.grades
-    for (let key in grades) {
-      grades[key] = ""
-    } 
-    this.setState({grades, isInvalid: true})
+    if(old_grades.length == 0){
+      for(let key in grades){
+        grades[key] = ""
+      } 
+    }
+    else{
+      for(let key in old_grades[0]){
+        grades[key] = old_grades[0][key]
+      } 
+    }
+    this.setState({grades, isInvalid: false, unchanged:true})
   }
 
   save() {
@@ -77,7 +95,7 @@ export default class Grades extends Component {
 				isInvalid = true;
       };
     }
-    this.setState({ grades, isInvalid });
+    this.setState({ grades, isInvalid , unchanged:false});
   }
 
   redirect(){
@@ -87,11 +105,13 @@ export default class Grades extends Component {
   }
 
   render() {
+    
     return (
       <Main {...this.headerProps()}>
         {this.renderTable()}
         {this.renderButtons()}
         {this.redirect()}
+        {this.return()}
       </Main>
     )
   }
@@ -101,8 +121,8 @@ export default class Grades extends Component {
       <table className="table mt-4">
         <thead>
           <tr>
-            <th>Nome</th>
-            <th>Nota</th>
+            <th>{linguaInformation[`student-name-${this.state.lingua}`]}</th>
+            <th>{linguaInformation[`student-grade-${this.state.lingua}`]}</th>
           </tr>
         </thead>
         <tbody>
@@ -120,8 +140,8 @@ export default class Grades extends Component {
           <td>
             <input type='text' className='form-control'
               name={aluno}
-              //value={this.state.grades[aluno]}
-              placeholder='Digite a nota do aluno'
+              value={this.state.grades[aluno]}
+              placeholder={linguaInformation[`placeholder-grade-${this.state.lingua}`]}
               onChange={e => this.updateField(e)}
               required />
             </td>
@@ -134,24 +154,30 @@ export default class Grades extends Component {
     return (
       <div>
         <div className="col-12 d-flex justify-content-end">
-          <button
+          {!this.state.unchanged && <button
             className="btn btn-primary"
             onClick={e => this.save(e)}
             disabled={this.state.isInvalid}>
-            Salvar
-          </button>
+            {linguaInformation[`buttonsave-${this.state.lingua}`]}
+          </button>}
 
-          <button
+         {!this.state.unchanged && <button
             className="btn btn-secondary ml-2"
             onClick={e => this.clear(e)}>
-            Cancelar
-          </button>
+            {linguaInformation[`buttoncancel-${this.state.lingua}`]}
+          </button>}
+
+          {this.state.unchanged && <button
+            className="btn btn-secondary ml-2"
+            onClick={e => this.setState({return: true})}>
+            {linguaInformation[`buttonreturn-${this.state.lingua}`]}
+          </button>}
         </div>
         <div className="col-12 d-flex justify-content-end">
           {
             this.state.isInvalid && (
               <div class="alert alert-danger" role="alert">
-                Existem notas inválidas!
+                {linguaInformation[`grades-invalid-${this.state.lingua}`]}
               </div>
             )
           }

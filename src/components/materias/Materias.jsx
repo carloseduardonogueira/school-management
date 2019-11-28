@@ -24,7 +24,8 @@ const InitialState = {
   isEmpty: true,
   redirect: false,
   materia_redirect: {},
-  lingua :(window && window.lingua) || 'PT-BR'
+  lingua :(window && window.lingua) || 'PT-BR',
+  notas: []
 }
 
 export default class Materia extends Component {
@@ -42,6 +43,9 @@ export default class Materia extends Component {
       axios("http://localhost:3001/alunos").then(alunos => {
         this.setState({ alunos: alunos.data, list: materia.data })
       });
+      axios("http://localhost:3001/notas").then(notas => {
+        this.setState({ notas: notas.data})
+      });      
     })
   }
 
@@ -215,7 +219,7 @@ export default class Materia extends Component {
 
   renderTable(lingua) {
     return (
-      <table className="table mt-4">
+    <table className="table table-hover mt-4">
         <thead>
           <tr>
             <th>{linguaInformation[`labelname-${lingua}`]}</th>

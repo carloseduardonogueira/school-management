@@ -84,6 +84,9 @@ lingua['buttonsave-EN'] = "Save"
 lingua['buttoncancel-PT'] = "Cancelar"
 lingua['buttoncancel-PT-BR'] = "Cancelar"
 lingua['buttoncancel-EN'] = "Cancel"
+lingua['buttonreturn-PT'] = "Voltar"
+lingua['buttonreturn-PT-BR'] = "Voltar"
+lingua['buttonreturn-EN'] = "Return"
 
 // Form Tables
 
@@ -145,6 +148,10 @@ lingua['save-message-EN'] = "You need to input the data in order to save"
 lingua['save-success-PT'] = "Registro feito com sucesso!"
 lingua['save-success-PT-BR'] = "Inserção feita com sucesso!"
 lingua['save-success-EN'] = "Successlly register"
+lingua['grades-invalid-PT'] = "Existem notas inválidas!"
+lingua['grades-invalid-PT-BR'] = "Existem notas inválidas!"
+lingua['grades-invalid-EN'] = "There are invalid grades!"
+
 
 // Aluno
 lingua['student-title-PT'] = "Alunos"
@@ -301,6 +308,24 @@ lingua['selectChoseStudent-EN'] = "Chose a student"
 lingua['table-image-PT'] = "Foto"
 lingua['table-image-PT-BR'] = "Foto"
 lingua['table-image-EN'] = "Image"
+
+//Atribuir nota
+lingua['student-name-PT'] = "Nome"
+lingua['student-name-PT-BR'] = "Nome"
+lingua['student-name-EN'] = "Name"
+
+lingua['student-grade-PT'] = "Nota"
+lingua['student-grade-PT-BR'] = "Nota"
+lingua['student-grade-EN'] = "Grade"
+
+lingua['placeholder-grade-PT'] = "Digite a nota do aluno"
+lingua['placeholder-grade-PT-BR'] = "Digite a nota do aluno"
+lingua['placeholder-grade-EN'] = "Type the student grade"
+
+lingua['grades-subtitle-PT'] = "Atribuir notas"
+lingua['grades-subtitle-PT-BR'] = "Atribuir notas"
+lingua['grades-subtitle-EN'] = "Assign grades"
+
 
 
 
