@@ -18,9 +18,6 @@ lingua['school-title-EN'] = "Schools"
 lingua['school-subtitle-PT'] = "Registrar nova escola"
 lingua['school-subtitle-PT-BR'] = "Cadastrar nova escola"
 lingua['school-subtitle-EN'] = "Register new school"
-lingua['nav-school-PT'] = "Escolas"
-lingua['nav-school-PT-BR'] = "Escolas"
-lingua['nav-school-EN'] = "Schools"
 lingua['labelname-PT'] = "Nome:"
 lingua['labelname-PT-BR'] = "Nome:"
 lingua['labelname-EN'] = "Name:"
@@ -182,13 +179,45 @@ lingua['holderStudentGuardianPass-PT'] = "Crie uma senha para o responsável"
 lingua['holderStudentGuardianPass-PT-BR'] = "Crie uma senha para o responsável"
 lingua['holderStudentGuardianPass-EN'] = "Create a password for the guardian"
 
-
-
 lingua['labelguardianemail-PT'] = "E-mail do responsavel:"
 lingua['labelguardianemail-PT-BR'] = "E-mail do responsvel:"
 lingua['labelguardianemail-EN'] = "Legal guardian's Email:"
 lingua['labelguardianpass-PT'] = "Senha do responsavel:"
 lingua['labelguardianpass-PT-BR'] = "Senha do responsavel:"
 lingua['labelguardianpass-EN'] = "Legal guardian's password"
+
+// Nav
+
+lingua['nav-school-PT']       = "Escolas"
+lingua['nav-school-PT-BR']    = "Escolas"
+lingua['nav-school-EN']       = "Schools"
+lingua['nav-students-PT']     = "Alunos"
+lingua['nav-students-PT-BR']  = "Alunos"
+lingua['nav-students-EN']     = "Students"
+
+lingua['nav-directors-PT']    = "Diretores"
+lingua['nav-directors-PT-BR'] = "Diretores"
+lingua['nav-directors-EN'] 		= "Directors"
+
+lingua['nav-teachers-PT']   = "Professores"
+lingua['nav-teachers-PT-BR']= "Professores"
+lingua['nav-teachers-EN'] 	= "Teachers"
+
+lingua['nav-administrators-PT']    = "Administradores"
+lingua['nav-administrators-PT-BR'] = "Administradores"
+lingua['nav-administrators-EN'] 		= "Administrators"
+
+lingua['nav-subjects-PT']    = "Matérias"
+lingua['nav-subjects-PT-BR'] = "Matérias"
+lingua['nav-subjects-EN'] 		= "School subjects"
+
+lingua['nav-occurences-PT']    = "Ocorrências"
+lingua['nav-occurences-PT-BR'] = "Ocorrências"
+lingua['nav-occurences-EN'] 		= "Occurences"
+
+lingua['nav-grades-PT']    = "Notas"
+lingua['nav-grades-PT-BR'] = "Notas"
+lingua['nav-grades-EN'] 		= "Grades"
+
 
 export default lingua;
