@@ -341,7 +341,6 @@ export default class Aluno extends Component {
 			<table className="table mt-4">
 				<thead>
 					<tr>
-<<<<<<< HEAD
 						<th>{linguaInformation[`table-name-${lingua}`]}</th>
 						<th>{linguaInformation[`table-surname-${lingua}`]}</th>
 						<th>{linguaInformation[`labelCPF-${lingua}`]}</th>
@@ -353,15 +352,6 @@ export default class Aluno extends Component {
 						<th>{linguaInformation[`table-guardianEmail-${lingua}`]}</th>
 						<th>{linguaInformation[`table-guardianPass-${lingua}`]}</th>
 						<th>{linguaInformation[`table-alter-${lingua}`]}</th>
-=======
-						<th>Nome</th>
-						<th>Sobrenome</th>
-						<th>E-mail</th>
-						<th>Telefone</th>
-						<th>Data de Nascimento</th>
-						<th>Nome do Responsável</th>
-						<th>Alterar</th>
->>>>>>> master
 					</tr>
 				</thead>
 				<tbody>
