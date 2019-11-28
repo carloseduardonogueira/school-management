@@ -191,7 +191,6 @@ lingua['labelguardianpass-PT-BR'] = "Senha do responsavel:"
 lingua['labelguardianpass-EN'] = "Legal guardian's password"
 
 // Nav
-
 lingua['nav-school-PT'] = "Escolas"
 lingua['nav-school-PT-BR'] = "Escolas"
 lingua['nav-school-EN'] = "Schools"
@@ -230,5 +229,13 @@ lingua['director-title-EN'] = "Directors"
 lingua['director-subtitle-PT'] = "Registrar novo diretor"
 lingua['director-subtitle-PT-BR'] = "Cadastrar novo diretor"
 lingua['director-subtitle-EN'] = "Register new director"
+
+// Professor
+lingua['teacher-title-PT'] = "Professores"
+lingua['teacher-title-PT-BR'] = "Professores"
+lingua['teacher-title-EN'] = "Teachers"
+lingua['teacher-subtitle-PT'] = "Registrar novo professor"
+lingua['teacher-subtitle-PT-BR'] = "Cadastrar novo professor"
+lingua['teacher-subtitle-EN'] = "Register new teacher"
 
 export default lingua;
