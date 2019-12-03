@@ -77,7 +77,9 @@ export default class Diretor extends Component {
   updateField(event) {
     const diretor = { ...this.state.diretor };
     const regrasTelefone = /^\+\d{2}?\s*\(\d{2}\)\s*\d{4,5}\-?\d{4}$/g;
-    const regrasCPF = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/g;
+    const nif = require('pt-id').nif;
+		const ssn = require("ssn-validator");
+    //const regrasCPF = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/g;
     const regrasEmail = /^[a-zA-Z0-9.]+@[a-zA-Z0-9\-]+\.[a-z]+(\.[a-z]+)?$/g;
 
     diretor[event.target.name] = event.target.value;
@@ -102,7 +104,7 @@ export default class Diretor extends Component {
         };
       };
       if (key === 'cpf') {
-        if (!regrasCPF.test(diretor[key]) || !CPF.validate(diretor[key])) {
+        if (/*!regrasCPF.test(diretor[key]) ||*/ !CPF.validate(diretor[key]) &&  !nif.validate(diretor[key], 'personal') && !ssn.isValid(diretor[key])) {
           isInvalidCPF = true;
         };
       };

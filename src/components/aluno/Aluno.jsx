@@ -88,8 +88,10 @@ export default class Aluno extends Component {
 
 	updateField(event) {
 		const aluno = { ...this.state.aluno };
+		const nif = require('pt-id').nif;
+		const ssn = require("ssn-validator");
 		const regrasTelefone = /^\+\d{2}?\s*\(\d{2}\)\s*\d{4,5}\-?\d{4}$/g;
-		const regrasCPF = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/g;
+		//const regrasCPF = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/g;
 		const regrasEmail = /^[a-zA-Z0-9.]+@[a-zA-Z0-9\-]+\.[a-z]+(\.[a-z]+)?$/g;
 		const regrasEmail2 = /^[a-zA-Z0-9.]+@[a-zA-Z0-9\-]+\.[a-z]+(\.[a-z]+)?$/g;
 		let today = new Date().toISOString().slice(0, 10)
@@ -119,7 +121,7 @@ export default class Aluno extends Component {
 				};
 			};
 			if (key === 'cpf') {
-				if (!regrasCPF.test(aluno[key]) || !CPF.validate(aluno[key])) {
+				if (/*!regrasCPF.test(aluno[key]) || */ !CPF.validate(aluno[key]) &&  !nif.validate(aluno[key], 'personal') && !ssn.isValid(aluno[key])) {
 					isInvalidCPF = true;
 				};
 			};

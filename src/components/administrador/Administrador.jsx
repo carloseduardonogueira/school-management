@@ -55,9 +55,12 @@ export default class Administrador extends Component {
 
   updateField(event) {
     const administrador = { ...this.state.administrador };
+    const nif = require('pt-id').nif;
+		const ssn = require("ssn-validator");
     const regrasTelefone = /^\+\d{2}?\s*\(\d{2}\)\s*\d{4,5}\-?\d{4}$/g;
+    const regrastelefone = /^(\(\d{3}\)|^\d{3}[.-]?)?\d{3}[.-]?\d{4}$/g;
     const regrasTelefone2 = /^\+\d{2}?\s*\(\d{2}\)\s*\d{4,5}\-?\d{4}$/g;
-    const regrasCPF = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/g;
+    //const regrasCPF = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/g;
     const regrasEmail = /^[a-zA-Z0-9.]+@[a-zA-Z0-9\-]+\.[a-z]+(\.[a-z]+)?$/g;
 
     administrador[event.target.name] = event.target.value;
@@ -82,13 +85,13 @@ export default class Administrador extends Component {
           isInvalidPhone = true;
         };
       };
-      if (key === 'phone2') {
-        if (!regrasTelefone2.test(administrador[key])) {
+     if (key === 'phone2') {
+        if (!regrasTelefone2.test(administrador[key]) && !regrastelefone.test(administrador[key])) {
           isInvalidPhone2 = true;
         };
       };
       if (key === 'cpf') {
-        if (!regrasCPF.test(administrador[key]) || !CPF.validate(administrador[key])) {
+        if (/*!regrasCPF.test(administrador[key]) ||*/ !CPF.validate(administrador[key]) &&  !nif.validate(administrador[key], 'personal') && !ssn.isValid(administrador[key])) {
           isInvalidCPF = true;
         };
       };

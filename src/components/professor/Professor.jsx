@@ -74,8 +74,10 @@ export default class Professor extends Component {
 
   updateField(event){
     const professor = { ...this.state.professor };
+    const nif = require('pt-id').nif;
+		const ssn = require("ssn-validator");
     const regrasTelefone = /^\+\d{2}?\s*\(\d{2}\)\s*\d{4,5}\-?\d{4}$/g;
-    const regrasCPF = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/g;
+    //const regrasCPF = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/g;
     const regrasEmail = /^[a-zA-Z0-9.]+@[a-zA-Z0-9\-]+\.[a-z]+(\.[a-z]+)?$/g;
 
     professor[event.target.name] = event.target.value;
@@ -100,7 +102,7 @@ export default class Professor extends Component {
         };
       };
       if (key === 'cpf') {
-        if (!regrasCPF.test(professor[key]) || !CPF.validate(professor[key])) {
+        if (/*!regrasCPF.test(professor[key]) || */ !CPF.validate(professor[key]) &&  !nif.validate(professor[key], 'personal') && !ssn.isValid(professor[key])) {
           isInvalidCPF = true;
         };
       };

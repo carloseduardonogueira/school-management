@@ -4,7 +4,7 @@ import Main from '../template/Main';
 import linguaInformation from '../../services/lingua';
 
 const InitialState = {
-  lingua: (window && window.lingua) || 'PT-BR',
+  lingua: localStorage.getItem("window.lingua") || 'PT-BR',
 }
 
 export default class Materia extends React.Component {
@@ -12,11 +12,13 @@ export default class Materia extends React.Component {
 
   selectLingua(event) {
     window.lingua = event.target.value;
+    localStorage.setItem("window.lingua", window.lingua);
     this.setState({ lingua: event.target.value });
   }
 
   componentDidMount(){
     this.setState({ lingua: window.lingua });
+    console.log(this.state.lingua);
   }
 
   render() {
