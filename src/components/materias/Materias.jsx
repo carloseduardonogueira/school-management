@@ -24,7 +24,7 @@ const InitialState = {
   isEmpty: true,
   redirect: false,
   materia_redirect: {},
-  lingua :(window && window.lingua) || 'PT-BR',
+  lingua :localStorage.getItem("lingua") || 'PT-BR',
   notas: []
 }
 
@@ -32,7 +32,7 @@ export default class Materia extends Component {
   state = { ...InitialState }
 
   componentDidMount(){
-    this.setState({ lingua: window.lingua });
+    this.setState({ lingua:localStorage.getItem("lingua") });
   }
 
   componentWillMount() {
