@@ -20,7 +20,7 @@ const initialState = {
   isInvalid: true,
   isInvalidPhone: true,
   saved: false,
-  lingua :(window && window.lingua) || 'EN'
+  lingua :localStorage.getItem("lingua") || 'PT-BR'
 };
 
 export default class School extends Component {
@@ -35,7 +35,7 @@ export default class School extends Component {
   }
 
   componentDidMount(){
-    this.setState({ lingua: window.lingua });
+    this.setState({ lingua: localStorage.getItem("lingua") });
   }
 
   clear() {

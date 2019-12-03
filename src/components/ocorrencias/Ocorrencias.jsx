@@ -19,14 +19,14 @@ const InitialState = {
   saved: false,
   isEmpty: true,
   path: '',
-  lingua :(window && window.lingua) || 'PT-BR'
+  lingua :localStorage.getItem("lingua") || 'PT-BR'
 }
 
 export default class Ocorrência extends Component {
   state = { ...InitialState }
 
   componentDidMount(){
-    this.setState({ lingua: window.lingua });
+    this.setState({ lingua: localStorage.getItem("lingua") });
   }
 
   componentWillMount() {

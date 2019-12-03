@@ -13,7 +13,7 @@ const initialState = {
   old_grades: [], 
   return: false,
   unchanged: true,
-  lingua:(window && window.lingua) || 'PT-BR',
+  lingua:localStorage.getItem("lingua") || 'PT-BR',
 }
 
 export default class Grades extends Component {
@@ -47,7 +47,7 @@ export default class Grades extends Component {
       grades["materia_id"]= materia.id
     } 
 
-    this.setState({grades, lingua: window.lingua })
+    this.setState({grades, lingua: localStorage.getItem("lingua") })
   }
 
   return() {

@@ -241,7 +241,7 @@ export default class Aluno extends Component {
 						</div>
 						<div className="col-12 col-md-6">
 							<div className="form-group">
-								<label for='birthdate'>{linguaInformation[`labelbirthdadte-${lingua}`]}</label>
+								<label for='birthdate'>{linguaInformation[`labelbirthdate-${lingua}`]}</label>
 								{
 									this.state.isInvalidDate && (
 										<div class="alert alert-danger" role="alert">

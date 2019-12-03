@@ -20,14 +20,14 @@ const initialState = {
   saved: false,
   isEmpty: true,
   isInvalid: true,
-  lingua :(window && window.lingua) || 'PT-BR'
+  lingua :localStorage.getItem("lingua") || 'PT-BR'
 }
 
 export default class Professor extends Component {
   state = {...initialState}
 
   componentDidMount(){
-    this.setState({ lingua: window.lingua });
+    this.setState({ lingua: localStorage.getItem("lingua")});
   }
 
   componentWillMount(){
