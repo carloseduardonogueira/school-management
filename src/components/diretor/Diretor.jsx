@@ -76,7 +76,7 @@ export default class Diretor extends Component {
 
   updateField(event) {
     const diretor = { ...this.state.diretor };
-    const regrasTelefone = /^\+\d{2}?\s*\(\d{2}\)\s*\d{4,5}\-?\d{4}$/g;
+    const regrasTelefone = /^\+\d{3}?\s*\(\d{2}\)\s*\d{4,5}\-?\d{4}$/g;
     const nif = require('pt-id').nif;
 		const ssn = require("ssn-validator");
     //const regrasCPF = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/g;

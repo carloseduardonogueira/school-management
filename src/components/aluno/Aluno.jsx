@@ -34,7 +34,7 @@ const initialState = {
 	saved: false,
 	isEmpty: true,
 	isInvalid: true,
-	lingua :(window && window.lingua) || 'PT-BR'
+	lingua : localStorage.getItem("lingua") || 'PT-BR'
 }
 
 export default class Aluno extends Component {
@@ -90,7 +90,7 @@ export default class Aluno extends Component {
 		const aluno = { ...this.state.aluno };
 		const nif = require('pt-id').nif;
 		const ssn = require("ssn-validator");
-		const regrasTelefone = /^\+\d{2}?\s*\(\d{2}\)\s*\d{4,5}\-?\d{4}$/g;
+		const regrasTelefone = /^\+\d{3}?\s*\(\d{2}\)\s*\d{4,5}\-?\d{4}$/g;
 		//const regrasCPF = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/g;
 		const regrasEmail = /^[a-zA-Z0-9.]+@[a-zA-Z0-9\-]+\.[a-z]+(\.[a-z]+)?$/g;
 		const regrasEmail2 = /^[a-zA-Z0-9.]+@[a-zA-Z0-9\-]+\.[a-z]+(\.[a-z]+)?$/g;
